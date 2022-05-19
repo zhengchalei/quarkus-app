@@ -10,34 +10,67 @@ repositories {
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
-    implementation 'io.quarkus:quarkus-resteasy-reactive-qute'
-    implementation 'io.quarkus:quarkus-qute'
-    implementation 'io.quarkus:quarkus-scheduler'
-    implementation 'io.quarkus:quarkus-smallrye-jwt'
-    implementation 'io.quarkus:quarkus-smallrye-graphql'
-    implementation 'io.quarkus:quarkus-smallrye-health'
-    implementation 'io.quarkus:quarkus-kubernetes'
-    implementation 'io.quarkus:quarkus-rest-client-reactive-jackson'
-    implementation 'io.quarkus:quarkus-jdbc-postgresql'
-    implementation 'io.quarkus:quarkus-hibernate-validator'
-    implementation 'io.quarkus:quarkus-smallrye-reactive-messaging'
-    implementation 'io.quarkus:quarkus-elasticsearch-rest-high-level-client'
-    implementation 'io.quarkus:quarkus-smallrye-openapi'
-    implementation 'io.quarkus:quarkus-quartz'
-    implementation 'io.quarkus:quarkus-smallrye-graphql-client'
-    implementation 'io.quarkus:quarkus-mailer'
-    implementation 'io.quarkus:quarkus-cache'
-    implementation 'io.quarkus:quarkus-smallrye-jwt-build'
-    implementation 'io.quarkus:quarkus-reactive-routes'
-    implementation 'io.quarkus:quarkus-arc'
-    implementation 'io.quarkus:quarkus-resteasy-reactive'
-    testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.rest-assured:rest-assured'
+    implementation("io.quarkus:quarkus-smallrye-openapi")
+    implementation("io.quarkus:quarkus-reactive-routes")
+    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+    implementation("io.quarkus:quarkus-resteasy-reactive-qute")
+    implementation("io.quarkus:quarkus-websockets")
+
+    implementation("io.quarkus:quarkus-qute")
+    implementation("io.quarkus:quarkus-smallrye-jwt")
+    implementation("io.quarkus:quarkus-smallrye-jwt-build")
+    implementation("io.quarkus:quarkus-smallrye-health")
+
+//    implementation("io.quarkus:quarkus-kubernetes")
+    implementation("io.quarkus:quarkus-container-image-jib")
+
+    implementation("io.quarkus:quarkus-rest-client-reactive-jackson")
+
+    implementation("io.quarkus:quarkus-flyway")
+
+    compileOnly("org.hibernate:hibernate-jpamodelgen:5.6.9.Final")
+    annotationProcessor("org.hibernate:hibernate-jpamodelgen:5.6.9.Final")
+    compileOnly("io.quarkus:quarkus-panache-common:2.9.1.Final")
+    annotationProcessor("io.quarkus:quarkus-panache-common:2.9.1.Final")
+    runtimeOnly("com.blazebit:blaze-persistence-integration-hibernate-5.6:1.6.6")
+    annotationProcessor("com.blazebit:blaze-persistence-integration-hibernate-5.6:1.6.6")
+    implementation("com.blazebit:blaze-persistence-integration-quarkus:1.6.6")
+
+    implementation("io.quarkus:quarkus-hibernate-envers")
+    implementation("io.quarkus:quarkus-hibernate-orm-panache")
+    implementation("io.quarkus:quarkus-hibernate-validator")
+    implementation("io.quarkus:quarkus-jdbc-postgresql")
+
+    implementation("io.quarkus:quarkus-smallrye-graphql")
+    implementation("io.quarkus:quarkus-smallrye-graphql-client")
+
+
+    implementation("io.quarkus:quarkus-scheduler")
+    implementation("io.quarkus:quarkus-quartz")
+    implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
+//    implementation("io.quarkus:quarkus-elasticsearch-rest-high-level-client")
+//    implementation("io.quarkus:quarkus-hibernate-search-orm-elasticsearch")
+
+
+    implementation("io.quarkus:quarkus-redis-client")
+
+    implementation("io.quarkus:quarkus-mailer")
+    implementation("io.quarkus:quarkus-cache")
+    implementation("io.quarkus:quarkus-vertx")
+    implementation("io.quarkus:quarkus-arc")
+    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
+
+    implementation("org.projectlombok:lombok:1.18.24")
+    annotationProcessor("org.projectlombok:lombok:1.18.24")
+
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.quarkus:quarkus-panache-mock")
+    testImplementation("io.rest-assured:rest-assured")
+    testImplementation("io.quarkus:quarkus-test-security-jwt")
 }
 
 group 'io.github.zhengchalei'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11

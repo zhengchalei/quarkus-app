@@ -79,6 +79,9 @@ If you want to learn more about building native executables, please consult http
   Build API
 - Reactive Routes ([guide](https://quarkus.io/guides/reactive-routes)): REST framework offering the route model to
   define non blocking endpoints
+- Quinoa ([guide](https://quarkiverse.github.io/quarkiverse-docs/quarkus-quinoa/dev/index.html)): Quinoa is a Quarkus
+  extension which eases the development, the build and serving single page apps or web components (built with NodeJS:
+  React, Angular, Vue, Lit, …) alongside other Quarkus services (REST, GraphQL, Security, Events, ...).
 
 ## Provided Code
 

@@ -68,8 +68,8 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public void update(SysUser sysUser) {
-        SysUser flush = findById(sysUser.id);
+    public void update(Long id, SysUser sysUser) {
+        SysUser flush = findById(id);
         // change
         flush.persistAndFlush();
     }

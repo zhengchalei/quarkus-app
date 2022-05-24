@@ -23,7 +23,7 @@ public interface SysUserService {
 
     void save(@Valid SysUser sysUser);
 
-    void update(@Valid SysUser sysUser);
+    void update(@Valid @NotNull Long id, @Valid SysUser sysUser);
 
     boolean delete(@Valid @NotNull Long id);
 }

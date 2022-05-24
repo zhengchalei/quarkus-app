@@ -26,7 +26,7 @@ public interface {data.entityName}Service {
 
     void save(@Valid {data.entityName} {data.lowerCaseEntityName});
 
-    void update(@Valid {data.entityName} {data.lowerCaseEntityName});
+    void update(@Valid @NotNull Long id, @Valid {data.entityName} {data.lowerCaseEntityName});
 
     boolean delete(@Valid @NotNull Long id);
 }

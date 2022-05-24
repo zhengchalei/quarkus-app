@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-@Path("/api/system/user")
+@Path("/api/system/sysUser")
 public class SysUserResource {
 
-    private static final String PATH = "/api/system/user";
+    private static final String PATH = "/api/system/sysUser";
 
     @Inject
     SysUserService service;
@@ -53,8 +53,9 @@ public class SysUserResource {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@Valid SysUser sysUser) {
-        service.update(sysUser);
+    @Path("/{id}")
+    public Response update(@Valid SysUser sysUser, @PathParam("id") Long id) {
+        service.update(id, sysUser);
         return Response.ok().build();
     }
 

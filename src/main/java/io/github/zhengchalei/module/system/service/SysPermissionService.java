@@ -18,12 +18,13 @@ public interface SysPermissionService {
 
     List<SysPermission> findAll(SysPermission sysPermission);
 
+    List<SysPermission> tree();
 
     SysPermission findById(@Valid @NotNull Long id);
 
     void save(@Valid SysPermission sysPermission);
 
-    void update(@Valid SysPermission sysPermission);
+    void update(@Valid @NotNull Long id, @Valid SysPermission sysPermission);
 
     boolean delete(@Valid @NotNull Long id);
 }

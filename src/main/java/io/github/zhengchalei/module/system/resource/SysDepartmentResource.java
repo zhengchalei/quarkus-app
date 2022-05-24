@@ -15,8 +15,10 @@ import java.util.List;
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-@Path("/api/system/departments")
+@Path("/api/system/sysDepartment")
 public class SysDepartmentResource {
+
+    private static final String PATH = "/api/system/sysDepartment";
 
     @Inject
     SysDepartmentService service;
@@ -52,13 +54,14 @@ public class SysDepartmentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid SysDepartment sysDepartment) {
         service.save(sysDepartment);
-        return Response.created(URI.create("/api/system/departments/" + sysDepartment.id)).build();
+        return Response.created(URI.create(PATH + sysDepartment.id)).build();
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@Valid SysDepartment sysDepartment) {
-        service.update(sysDepartment);
+    @Path("/{id}")
+    public Response update(@Valid SysDepartment sysDepartment, @PathParam("id") Long id) {
+        service.update(id, sysDepartment);
         return Response.ok().build();
     }
 

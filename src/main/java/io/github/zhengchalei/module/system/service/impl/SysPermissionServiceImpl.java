@@ -1,5 +1,6 @@
 package io.github.zhengchalei.module.system.service.impl;
 
+import io.github.zhengchalei.common.Util;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.github.zhengchalei.module.system.domain.SysPermission_;
@@ -52,6 +53,11 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         return queryBuilder.exec().getResultList();
     }
 
+    @Override
+    public List<SysPermission> tree() {
+        List<SysPermission> listAll = SysPermission.listAll();
+        return Util.tree(listAll);
+    }
 
     @Override
     public SysPermission findById(Long id) {
@@ -68,8 +74,8 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     }
 
     @Override
-    public void update(SysPermission sysPermission) {
-        SysPermission flush = findById(sysPermission.id);
+    public void update(Long id, SysPermission sysPermission) {
+        SysPermission flush = findById(id);
         // change
         flush.persistAndFlush();
     }

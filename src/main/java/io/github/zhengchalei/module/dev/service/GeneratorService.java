@@ -1,6 +1,6 @@
 package io.github.zhengchalei.module.dev.service;
 
-import io.github.zhengchalei.module.dev.domain.GeneratorMetaData;
+import io.github.zhengchalei.module.dev.domain.GenMetaData;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 
@@ -9,22 +9,22 @@ import io.quarkus.qute.TemplateInstance;
  **/
 public interface GeneratorService {
 
-    String buildPath(GeneratorMetaData metaData, String... paths);
+    String buildPath(GenMetaData metaData, String... paths);
 
-    void createFileAndWrite(String path, String data, GeneratorMetaData metaData);
+    void createFileAndWrite(String path, String data, GenMetaData metaData);
 
-    void service(GeneratorMetaData metaData);
+    void service(GenMetaData metaData);
 
-    void serviceImpl(GeneratorMetaData metaData);
+    void serviceImpl(GenMetaData metaData);
 
-    void resource(GeneratorMetaData metaData);
+    void resource(GenMetaData metaData);
 
     @CheckedTemplate(requireTypeSafeExpressions = false)
     public static class Templates {
-        public static native TemplateInstance resource(GeneratorMetaData data);
+        public static native TemplateInstance resource(GenMetaData data);
 
-        public static native TemplateInstance service(GeneratorMetaData data);
+        public static native TemplateInstance service(GenMetaData data);
 
-        public static native TemplateInstance serviceImpl(GeneratorMetaData data);
+        public static native TemplateInstance serviceImpl(GenMetaData data);
     }
 }

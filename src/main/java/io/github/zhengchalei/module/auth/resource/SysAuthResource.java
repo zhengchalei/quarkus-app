@@ -1,4 +1,4 @@
-package io.github.zhengchalei.module.auth;
+package io.github.zhengchalei.module.auth.resource;
 
 import io.github.zhengchalei.module.auth.dto.LoginDTO;
 import io.github.zhengchalei.module.system.domain.SysUser;

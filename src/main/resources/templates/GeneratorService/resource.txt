@@ -61,8 +61,9 @@ public class {data.entityName}Resource {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@Valid {data.entityName} {data.lowerCaseEntityName}) {
-        service.update({data.lowerCaseEntityName});
+    @Path("/\{id\}")
+    public Response update(@Valid {data.entityName} {data.lowerCaseEntityName}, @PathParam("id") Long id) {
+        service.update(id, {data.lowerCaseEntityName});
         return Response.ok().build();
     }
 

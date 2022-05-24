@@ -1,6 +1,6 @@
 package io.github.zhengchalei.module.dev.service;
 
-import io.github.zhengchalei.module.dev.domain.GeneratorMetaData;
+import io.github.zhengchalei.module.dev.domain.GenMetaData;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class GeneratorServiceImpl implements GeneratorService {
     private final Logger logger = LoggerFactory.getLogger(GeneratorService.class);
 
     @Override
-    public String buildPath(GeneratorMetaData metaData, String... paths) {
+    public String buildPath(GenMetaData metaData, String... paths) {
         String projectPath = System.getProperty("user.dir");
         String packagePath = StringUtils.join(projectPath,
                 File.separator,
@@ -39,9 +39,9 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     @Override
-    public void createFileAndWrite(String path, String data, GeneratorMetaData metaData) {
+    public void createFileAndWrite(String path, String data, GenMetaData metaData) {
         File file = new File(path);
-        if (!file.exists()) {
+        if (!file.exists() || metaData.rewrite) {
             try {
                 boolean bool = file.createNewFile();
                 logger.info("创建文件: {}, {}", file.getName(), bool);
@@ -59,21 +59,21 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     @Override
-    public void service(GeneratorMetaData metaData) {
+    public void service(GenMetaData metaData) {
         String filePath = buildPath(metaData, "service", metaData.entityName) + "Service.java";
         String render = Templates.service(metaData).render();
         createFileAndWrite(filePath, render, metaData);
     }
 
     @Override
-    public void serviceImpl(GeneratorMetaData metaData) {
+    public void serviceImpl(GenMetaData metaData) {
         String filePath = buildPath(metaData, "service", "impl", metaData.entityName) + "ServiceImpl.java";
         String render = Templates.serviceImpl(metaData).render();
         createFileAndWrite(filePath, render, metaData);
     }
 
     @Override
-    public void resource(GeneratorMetaData metaData) {
+    public void resource(GenMetaData metaData) {
         String filePath = buildPath(metaData, "resource", metaData.entityName) + "Resource.java";
         String render = Templates.resource(metaData).render();
         createFileAndWrite(filePath, render, metaData);

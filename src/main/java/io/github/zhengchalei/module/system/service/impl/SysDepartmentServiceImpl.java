@@ -6,7 +6,6 @@ import io.github.zhengchalei.module.system.domain.SysDepartment;
 import io.github.zhengchalei.module.system.domain.SysDepartment_;
 import io.github.zhengchalei.module.system.service.SysDepartmentService;
 import io.quarkus.panache.common.Page;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,17 +27,10 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
 
     private QueryBuilder<SysDepartment> queryBuilder(SysDepartment sysDepartment) {
         QueryBuilder<SysDepartment> queryBuilder = new QueryBuilder<>(entityManager, SysDepartment.class);
-        if (StringUtils.isNoneBlank(sysDepartment.name)) {
-            Predicate predicate = queryBuilder.cb.like(
-                    queryBuilder.root.get(SysDepartment_.name),
-                    StringUtils.join(sysDepartment.name, "%")
-            );
-            queryBuilder.where(predicate);
-        }
-        if (StringUtils.isNoneBlank(sysDepartment.description)) {
-            Predicate predicate = queryBuilder.cb.like(
-                    queryBuilder.root.get(SysDepartment_.description),
-                    StringUtils.join(sysDepartment.description, "%")
+        if (sysDepartment.id != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                    queryBuilder.root.get(SysDepartment_.id),
+                    sysDepartment.id
             );
             queryBuilder.where(predicate);
         }
@@ -82,11 +74,9 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
     }
 
     @Override
-    public void update(SysDepartment sysDepartment) {
-        SysDepartment flush = findById(sysDepartment.id);
-        flush.parentId = sysDepartment.parentId;
-        flush.sort = sysDepartment.sort;
-        flush.children = sysDepartment.children;
+    public void update(Long id, SysDepartment sysDepartment) {
+        SysDepartment flush = findById(id);
+        // change
         flush.persistAndFlush();
     }
 

@@ -24,7 +24,7 @@ public interface SysDepartmentService {
 
     void save(@Valid SysDepartment sysDepartment);
 
-    void update(@Valid SysDepartment sysDepartment);
+    void update(@Valid @NotNull Long id, @Valid SysDepartment sysDepartment);
 
     boolean delete(@Valid @NotNull Long id);
 }

@@ -68,8 +68,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public void update(SysRole sysRole) {
-        SysRole flush = findById(sysRole.id);
+    public void update(Long id, SysRole sysRole) {
+        SysRole flush = findById(id);
         // change
         flush.persistAndFlush();
     }

@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-@Path("/api/system/permission")
+@Path("/api/system/sysPermission")
 public class SysPermissionResource {
 
-    private static final String PATH = "/api/system/permission";
+    private static final String PATH = "/api/system/sysPermission";
 
     @Inject
     SysPermissionService service;
@@ -29,6 +29,12 @@ public class SysPermissionResource {
         return service.findPage(page.build(), sysPermission);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/search/tree")
+    public List<SysPermission> tree() {
+        return service.tree();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -53,8 +59,9 @@ public class SysPermissionResource {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@Valid SysPermission sysPermission) {
-        service.update(sysPermission);
+    @Path("/{id}")
+    public Response update(@Valid SysPermission sysPermission, @PathParam("id") Long id) {
+        service.update(id, sysPermission);
         return Response.ok().build();
     }
 

@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-@Path("/api/system/role")
+@Path("/api/system/sysRole")
 public class SysRoleResource {
 
-    private static final String PATH = "/api/system/role";
+    private static final String PATH = "/api/system/sysRole";
 
     @Inject
     SysRoleService service;
@@ -28,6 +28,7 @@ public class SysRoleResource {
     public List<SysRole> page(@BeanParam Page page, @BeanParam SysRole sysRole) {
         return service.findPage(page.build(), sysRole);
     }
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,8 +53,9 @@ public class SysRoleResource {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@Valid SysRole sysRole) {
-        service.update(sysRole);
+    @Path("/{id}")
+    public Response update(@Valid SysRole sysRole, @PathParam("id") Long id) {
+        service.update(id, sysRole);
         return Response.ok().build();
     }
 

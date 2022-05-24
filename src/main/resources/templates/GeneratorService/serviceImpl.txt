@@ -77,8 +77,8 @@ public class {data.entityName}ServiceImpl implements {data.entityName}Service {
     }
 
     @Override
-    public void update({data.entityName} {data.lowerCaseEntityName}) {
-        {data.entityName} flush = findById({data.lowerCaseEntityName}.id);
+    public void update(Long id, {data.entityName} {data.lowerCaseEntityName}) {
+        {data.entityName} flush = findById(id);
         // change
         flush.persistAndFlush();
     }

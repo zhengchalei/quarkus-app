@@ -97,3 +97,6 @@ INSERT INTO sys_department (parent_id, sort, description, name)
 VALUES (1, 0, null, '上海分公司');
 INSERT INTO sys_department (parent_id, sort, description, name)
 VALUES (2, 0, null, '上海分公司开发部');
+
+INSERT INTO sys_user(email, password, username, department_id)
+VALUES ('stone981023@gmail', '123456', 'admin', 1);

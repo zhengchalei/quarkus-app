@@ -11,7 +11,7 @@ public class LoginDTO {
     @NotBlank(message = "用户名不能为空")
     public String username;
 
-    @Schema(title = "密码", example = "admin", nullable = false)
+    @Schema(title = "密码", example = "123456", nullable = false)
     @NotBlank(message = "密码不能为空")
     public String password;
 

@@ -1,7 +1,7 @@
 package io.github.zhengchalei.module.system.service.impl;
 
+import io.github.zhengchalei.common.Util;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
-import io.github.zhengchalei.common.model.Util;
 import io.github.zhengchalei.module.system.domain.SysDepartment;
 import io.github.zhengchalei.module.system.domain.SysDepartment_;
 import io.github.zhengchalei.module.system.service.SysDepartmentService;

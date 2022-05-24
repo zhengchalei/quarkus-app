@@ -1,4 +1,9 @@
-package io.github.zhengchalei.common.model;
+package io.github.zhengchalei.common;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.zhengchalei.common.model.TreeEntity;
+import io.github.zhengchalei.common.model.TreeNode;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +15,8 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
 public class Util {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * 生成子节点
@@ -65,5 +72,13 @@ public class Util {
 
     public static String subLastStr(String str, String last) {
         return str.substring(0, str.lastIndexOf(last));
+    }
+
+    public static String toJsonStr(Object o) {
+        try {
+            return objectMapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

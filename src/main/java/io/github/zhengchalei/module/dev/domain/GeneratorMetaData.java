@@ -1,7 +1,6 @@
 package io.github.zhengchalei.module.dev.domain;
 
-import io.github.zhengchalei.common.model.BaseEntity;
-import io.github.zhengchalei.common.model.Util;
+import io.github.zhengchalei.common.Util;
 
 /**
  * GeneratorMetaData
@@ -16,28 +15,28 @@ public class GeneratorMetaData {
     /**
      * 实体
      */
-    public final Class<? extends BaseEntity> entity;
+    public final Class<?> entity;
     /**
      * 模块
      */
     public String module;
     public String entityName;
     public String lowerCaseEntityName;
-    public String entityPackage;
-    public String packagePath;
+    public String entityPath;
+    public String modulePath;
 
-    public GeneratorMetaData(Class<? extends BaseEntity> entity) {
+    public GeneratorMetaData(Class<?> entity) {
         this(false, entity);
     }
 
-    public GeneratorMetaData(boolean tree, Class<? extends BaseEntity> entity) {
+    public GeneratorMetaData(boolean tree, Class<?> entity) {
         this.tree = tree;
         this.entity = entity;
 
         this.module = "system";
         this.entityName = entity.getSimpleName();
         this.lowerCaseEntityName = Util.firstLowerCase(entityName);
-        this.entityPackage = entity.getPackageName();
-        this.packagePath = Util.subLastStr(entityPackage, ".domain");
+        this.entityPath = entity.getPackageName();
+        this.modulePath = Util.subLastStr(entityPath, ".domain");
     }
 }

@@ -6,20 +6,23 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.ws.rs.QueryParam;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Schema(description = "系统角色")
+@Schema(title = "系统角色")
 @Entity(name = "sys_role")
 @Table(name = "sys_role", uniqueConstraints = {
         @UniqueConstraint(name = "uc_sys_role_name_code", columnNames = {"name", "code"})
 })
 public class SysRole extends BaseEntity {
 
+    @QueryParam("name")
     @Schema(title = "角色名称", example = "超级管理员")
     public String name;
 
+    @QueryParam("code")
     @Schema(title = "角色编码", example = "super_admin")
     public String code;
 

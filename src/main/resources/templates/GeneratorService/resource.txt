@@ -1,7 +1,8 @@
+package {data.modulePath}.resource;
 
 import io.github.zhengchalei.common.model.Page;
-import {data.entityPackage}.{data.entityName};
-import {data.packagePath}.service.{data.entityName}Service;
+import {data.entityPath}.{data.entityName};
+import {data.modulePath}.service.{data.entityName}Service;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -16,6 +17,8 @@ import java.util.List;
  **/
 @Path("/api/{data.module}/{data.lowerCaseEntityName}")
 public class {data.entityName}Resource {
+
+    private static final String PATH = "/api/{data.module}/{data.lowerCaseEntityName}";
 
     @Inject
     {data.entityName}Service service;
@@ -53,7 +56,7 @@ public class {data.entityName}Resource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid {data.entityName} {data.lowerCaseEntityName}) {
         service.save({data.lowerCaseEntityName});
-        return Response.created(URI.create("/api/system/departments/" + {data.lowerCaseEntityName}.id)).build();
+        return Response.created(URI.create(PATH + {data.lowerCaseEntityName}.id)).build();
     }
 
     @PUT

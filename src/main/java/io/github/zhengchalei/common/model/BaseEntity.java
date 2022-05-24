@@ -7,10 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.ws.rs.QueryParam;
 
 @MappedSuperclass
 public class BaseEntity extends PanacheEntityBase {
 
+    @QueryParam("id")
     @Schema(description = "id", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,7 +2,7 @@ package io.github.zhengchalei.module.system.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.zhengchalei.common.model.Util;
+import io.github.zhengchalei.common.Util;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

@@ -1,13 +1,14 @@
 package io.github.zhengchalei.module.dev.resource;
 
+import io.github.zhengchalei.common.Util;
 import io.github.zhengchalei.module.dev.domain.GeneratorMetaData;
-import io.github.zhengchalei.module.system.domain.SysRole;
-import io.quarkus.qute.CheckedTemplate;
-import io.quarkus.qute.TemplateInstance;
+import io.github.zhengchalei.module.dev.service.GeneratorService;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -16,16 +17,24 @@ import javax.ws.rs.core.MediaType;
 @Path("/api/dev")
 public class GeneratorResource {
 
+    @Inject
+    GeneratorService generatorService;
+
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String resource() {
-        GeneratorMetaData generatorMetaData = new GeneratorMetaData(false, SysRole.class);
-        return Templates.resource(generatorMetaData).render();
+    @Produces(MediaType.APPLICATION_JSON)
+    public String resource(
+            @QueryParam("class") String classs
+    ) throws ClassNotFoundException {
+        GeneratorMetaData generatorMetaData = new GeneratorMetaData(false, Class.forName(classs));
+        generatorFile(generatorMetaData);
+        return Util.toJsonStr(generatorMetaData);
     }
 
-    @CheckedTemplate(requireTypeSafeExpressions = false)
-    public static class Templates {
-        public static native TemplateInstance resource(GeneratorMetaData data);
+    private void generatorFile(GeneratorMetaData metaData) {
+        generatorService.service(metaData);
+        generatorService.serviceImpl(metaData);
+        generatorService.resource(metaData);
     }
+
 
 }

@@ -27,10 +27,18 @@ public class GenMetaData {
     public String entityName;
     @Schema(hidden = true)
     public String lowerCaseEntityName;
+
     @Schema(hidden = true)
     public String entityPath;
+
     @Schema(hidden = true)
     public String modulePath;
+
+    /**
+     * 删除前缀名字
+     */
+    @Schema(hidden = true)
+    public String removedPrefixName;
 
     /**
      * 文件已存在时重写
@@ -50,6 +58,11 @@ public class GenMetaData {
     @Schema(title = "所属模块", defaultValue = "system")
     public String module;
 
+
+    @QueryParam("prefix")
+    @Schema(title = "移除前缀", defaultValue = "Sys")
+    public String prefix;
+
     public GenMetaData() {
     }
 
@@ -60,6 +73,8 @@ public class GenMetaData {
         this.lowerCaseEntityName = Util.firstLowerCase(entityName);
         this.entityPath = entity.getPackageName();
         this.modulePath = Util.subLastStr(entityPath, ".domain");
+        this.removedPrefixName = Util.firstLowerCase(Util.removePrefix(prefix, this.entityName));
         return this;
     }
+
 }

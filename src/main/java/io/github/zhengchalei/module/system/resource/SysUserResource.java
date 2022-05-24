@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-@Path("/api/system/sysUser")
+@Path("/api/system/user")
 public class SysUserResource {
 
-    private static final String PATH = "/api/system/sysUser";
+    private static final String PATH = "/api/system/user";
 
     @Inject
     SysUserService service;

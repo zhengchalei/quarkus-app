@@ -3,6 +3,7 @@ package io.github.zhengchalei.module.system.resource;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.github.zhengchalei.module.system.service.SysPermissionService;
+import io.quarkus.security.Authenticated;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
+@Authenticated
 @Path("/api/system/permission")
 public class SysPermissionResource {
 

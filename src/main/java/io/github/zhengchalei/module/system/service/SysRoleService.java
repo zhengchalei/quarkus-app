@@ -18,7 +18,6 @@ public interface SysRoleService {
 
     List<SysRole> findAll(SysRole sysRole);
 
-
     SysRole findById(@Valid @NotNull Long id);
 
     void save(@Valid SysRole sysRole);

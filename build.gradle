@@ -23,15 +23,8 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-jwt-build")
     implementation("io.quarkus:quarkus-smallrye-health")
 
-//    implementation("io.quarkus:quarkus-kubernetes")
+    implementation("io.quarkus:quarkus-kubernetes")
     implementation("io.quarkus:quarkus-container-image-jib")
-
-
-    // annotationProcessor
-//    implementation("org.projectlombok:lombok:1.18.24")
-//    annotationProcessor("org.projectlombok:lombok:1.18.24")
-//    implementation("org.mapstruct:mapstruct:1.5.0.RC1")
-//    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.0.RC1")
 
     // db
     implementation("io.quarkus:quarkus-flyway")
@@ -39,11 +32,6 @@ dependencies {
     implementation("io.quarkus:quarkus-hibernate-orm-panache")
     implementation("io.quarkus:quarkus-hibernate-validator")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
-    compileOnly("org.hibernate:hibernate-jpamodelgen:5.6.9.Final")
-    annotationProcessor("org.hibernate:hibernate-jpamodelgen:5.6.9.Final")
-    compileOnly("io.quarkus:quarkus-panache-common:2.9.1.Final")
-    annotationProcessor("io.quarkus:quarkus-panache-common:2.9.1.Final")
-
 
     // redis
     implementation("io.quarkus:quarkus-redis-client")

@@ -2,7 +2,6 @@ package io.github.zhengchalei.module.system.service.impl;
 
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysUser;
-import io.github.zhengchalei.module.system.domain.SysUser_;
 import io.github.zhengchalei.module.system.service.SysUserService;
 import io.quarkus.panache.common.Page;
 
@@ -28,7 +27,7 @@ public class SysUserServiceImpl implements SysUserService {
         QueryBuilder<SysUser> queryBuilder = new QueryBuilder<>(entityManager, SysUser.class);
         if (sysUser.id != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                    queryBuilder.root.get(SysUser_.id),
+                    queryBuilder.root.get("id"),
                     sysUser.id
             );
             queryBuilder.where(predicate);
@@ -51,7 +50,6 @@ public class SysUserServiceImpl implements SysUserService {
         QueryBuilder<SysUser> queryBuilder = this.queryBuilder(sysUser);
         return queryBuilder.exec().getResultList();
     }
-
 
     @Override
     public SysUser findById(Long id) {

@@ -2,7 +2,6 @@ package io.github.zhengchalei.module.system.service.impl;
 
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysRole;
-import io.github.zhengchalei.module.system.domain.SysRole_;
 import io.github.zhengchalei.module.system.service.SysRoleService;
 import io.quarkus.panache.common.Page;
 
@@ -28,7 +27,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         QueryBuilder<SysRole> queryBuilder = new QueryBuilder<>(entityManager, SysRole.class);
         if (sysRole.id != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                    queryBuilder.root.get(SysRole_.id),
+                    queryBuilder.root.get("id"),
                     sysRole.id
             );
             queryBuilder.where(predicate);
@@ -51,7 +50,6 @@ public class SysRoleServiceImpl implements SysRoleService {
         QueryBuilder<SysRole> queryBuilder = this.queryBuilder(sysRole);
         return queryBuilder.exec().getResultList();
     }
-
 
     @Override
     public SysRole findById(Long id) {

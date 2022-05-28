@@ -3,7 +3,6 @@ package {data.modulePath}.service.impl;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.common.Util;
 import {data.entityPath}.{data.entityName};
-import {data.entityPath}.{data.entityName}_;
 import {data.modulePath}.service.{data.entityName}Service;
 import io.quarkus.panache.common.Page;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +29,7 @@ public class {data.entityName}ServiceImpl implements {data.entityName}Service {
         QueryBuilder<{data.entityName}> queryBuilder = new QueryBuilder<>(entityManager, {data.entityName}.class);
         if ({data.lowerCaseEntityName}.id != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                    queryBuilder.root.get({data.entityName}_.id),
+                    queryBuilder.root.get("id"),
                     {data.lowerCaseEntityName}.id
             );
             queryBuilder.where(predicate);

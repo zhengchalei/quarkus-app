@@ -18,7 +18,6 @@ public interface SysUserService {
 
     List<SysUser> findAll(SysUser sysUser);
 
-
     SysUser findById(@Valid @NotNull Long id);
 
     void save(@Valid SysUser sysUser);

@@ -3,7 +3,6 @@ package io.github.zhengchalei.module.system.service.impl;
 import io.github.zhengchalei.common.Util;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysPermission;
-import io.github.zhengchalei.module.system.domain.SysPermission_;
 import io.github.zhengchalei.module.system.service.SysPermissionService;
 import io.quarkus.panache.common.Page;
 
@@ -29,7 +28,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         QueryBuilder<SysPermission> queryBuilder = new QueryBuilder<>(entityManager, SysPermission.class);
         if (sysPermission.id != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                    queryBuilder.root.get(SysPermission_.id),
+                    queryBuilder.root.get("id"),
                     sysPermission.id
             );
             queryBuilder.where(predicate);

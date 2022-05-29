@@ -1,6 +1,6 @@
 package io.github.zhengchalei.common.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import javax.persistence.GeneratedValue;
@@ -10,11 +10,10 @@ import javax.persistence.MappedSuperclass;
 import javax.ws.rs.QueryParam;
 
 @MappedSuperclass
-public class BaseEntity extends PanacheEntityBase {
+public class BaseEntity extends PanacheEntity {
 
     @QueryParam("id")
     @Schema(description = "id", example = "1")
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 

@@ -1,6 +1,5 @@
 package io.github.zhengchalei.module.system.service.impl;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysUser;
 import io.github.zhengchalei.module.system.dto.SysUserDto;

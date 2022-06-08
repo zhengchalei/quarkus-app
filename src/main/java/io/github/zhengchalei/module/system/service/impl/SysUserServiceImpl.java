@@ -1,5 +1,6 @@
 package io.github.zhengchalei.module.system.service.impl;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysUser;
 import io.github.zhengchalei.module.system.dto.SysUserDto;
@@ -28,12 +29,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Inject
     SysUserMapper sysUserMapper;
 
-    private QueryBuilder<SysUser> queryBuilder(SysUser sysUserDto) {
+    private QueryBuilder<SysUser> queryBuilder(SysUser sysUser) {
         QueryBuilder<SysUser> queryBuilder = new QueryBuilder<>(entityManager, SysUser.class);
-        if (sysUserDto.id != null) {
+        if (sysUser.id != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("id"),
-                    sysUserDto.id
+                    sysUser.id
             );
             queryBuilder.where(predicate);
         }

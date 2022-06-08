@@ -1,9 +1,8 @@
 package io.github.zhengchalei.module.system.service;
 
-import io.github.zhengchalei.module.system.domain.SysUser;
+import io.github.zhengchalei.module.system.dto.SysUserDto;
 import io.quarkus.panache.common.Page;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -12,17 +11,19 @@ import java.util.List;
  **/
 public interface SysUserService {
 
-    List<SysUser> findPage(Page page, SysUser sysUser);
+    List<SysUserDto> findPage(@NotNull Page page, @NotNull SysUserDto sysUserDto);
 
-    long findCount(Page page, SysUser sysUser);
+    long findCount(@NotNull Page page, @NotNull SysUserDto sysUserDto);
 
-    List<SysUser> findAll(SysUser sysUser);
+    long findCount();
 
-    SysUser findById(@Valid @NotNull Long id);
+    List<SysUserDto> findList(@NotNull SysUserDto sysUserDto);
 
-    void save(@Valid SysUser sysUser);
+    SysUserDto findById(@NotNull Long id);
 
-    void update(@Valid @NotNull Long id, @Valid SysUser sysUser);
+    void save(@NotNull SysUserDto sysUserDto);
 
-    boolean delete(@Valid @NotNull Long id);
+    void update(@NotNull Long id, @NotNull SysUserDto sysUserDto);
+
+    boolean delete(@NotNull Long id);
 }

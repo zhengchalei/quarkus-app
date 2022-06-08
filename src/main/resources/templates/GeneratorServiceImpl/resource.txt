@@ -42,7 +42,7 @@ public class {data.entityName}Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/search/list")
     public List<{data.entityName}> list(@BeanParam {data.entityName} {data.lowerCaseEntityName}) {
-        return service.findAll({data.lowerCaseEntityName});
+        return service.findList({data.lowerCaseEntityName});
     }
 
     @GET

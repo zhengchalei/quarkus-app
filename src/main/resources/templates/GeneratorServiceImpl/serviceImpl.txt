@@ -48,7 +48,7 @@ public class {data.entityName}ServiceImpl implements {data.entityName}Service {
     }
 
     @Override
-    public List<{data.entityName}> findAll({data.entityName} {data.lowerCaseEntityName}) {
+    public List<{data.entityName}> findList({data.entityName} {data.lowerCaseEntityName}) {
         QueryBuilder<{data.entityName}> queryBuilder = this.queryBuilder({data.lowerCaseEntityName});
         return queryBuilder.exec().getResultList();
     }

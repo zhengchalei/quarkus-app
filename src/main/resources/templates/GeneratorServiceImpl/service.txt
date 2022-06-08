@@ -12,21 +12,21 @@ import java.util.List;
  **/
 public interface {data.entityName}Service {
 
-    List<{data.entityName}> findPage(Page page, {data.entityName} {data.lowerCaseEntityName});
+    List<{data.entityName}> findPage(@NotNull Page page,@NotNull {data.entityName} {data.lowerCaseEntityName});
 
-    long findCount(Page page, {data.entityName} {data.lowerCaseEntityName});
+    long findCount(@NotNull Page page, @NotNull {data.entityName} {data.lowerCaseEntityName});
 
-    List<{data.entityName}> findAll({data.entityName} {data.lowerCaseEntityName});
+    List<{data.entityName}> findList(@NotNull {data.entityName} {data.lowerCaseEntityName});
 
     {#if data.tree}
     List<{data.entityName}> tree();
     {/if}
 
-    {data.entityName} findById(@Valid @NotNull Long id);
+    {data.entityName} findById(@NotNull Long id);
 
-    void save(@Valid {data.entityName} {data.lowerCaseEntityName});
+    void save({data.entityName} {data.lowerCaseEntityName});
 
-    void update(@Valid @NotNull Long id, @Valid {data.entityName} {data.lowerCaseEntityName});
+    void update(@NotNull Long id, {data.entityName} {data.lowerCaseEntityName});
 
-    boolean delete(@Valid @NotNull Long id);
+    boolean delete(@NotNull Long id);
 }

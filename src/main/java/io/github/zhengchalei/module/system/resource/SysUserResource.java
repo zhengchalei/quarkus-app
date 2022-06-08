@@ -1,7 +1,7 @@
 package io.github.zhengchalei.module.system.resource;
 
 import io.github.zhengchalei.common.model.Page;
-import io.github.zhengchalei.module.system.domain.SysUser;
+import io.github.zhengchalei.module.system.dto.SysUserDto;
 import io.github.zhengchalei.module.system.service.SysUserService;
 import io.quarkus.security.Authenticated;
 
@@ -27,37 +27,37 @@ public class SysUserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SysUser> page(@BeanParam Page page, @BeanParam SysUser sysUser) {
-        return service.findPage(page.build(), sysUser);
+    public List<SysUserDto> page(@BeanParam Page page, @BeanParam SysUserDto sysUserDto) {
+        return service.findPage(page.build(), sysUserDto);
     }
 
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/search/list")
-    public List<SysUser> list(@BeanParam SysUser sysUser) {
-        return service.findAll(sysUser);
+    public List<SysUserDto> list(@BeanParam SysUserDto sysUserDto) {
+        return service.findList(sysUserDto);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public SysUser findById(@PathParam("id") Long id) {
+    public SysUserDto findById(@PathParam("id") Long id) {
         return service.findById(id);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response save(@Valid SysUser sysUser) {
-        service.save(sysUser);
-        return Response.created(URI.create(PATH + sysUser.id)).build();
+    public Response save(@Valid SysUserDto sysUserDto) {
+        service.save(sysUserDto);
+        return Response.created(URI.create(PATH + sysUserDto.getId())).build();
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Response update(@Valid SysUser sysUser, @PathParam("id") Long id) {
-        service.update(id, sysUser);
+    public Response update(@Valid SysUserDto sysUserDto, @PathParam("id") Long id) {
+        service.update(id, sysUserDto);
         return Response.ok().build();
     }
 

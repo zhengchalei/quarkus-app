@@ -3,7 +3,6 @@ package io.github.zhengchalei.module.system.service;
 import io.github.zhengchalei.module.system.domain.SysDepartment;
 import io.quarkus.panache.common.Page;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -12,19 +11,19 @@ import java.util.List;
  **/
 public interface SysDepartmentService {
 
-    List<SysDepartment> findPage(Page page, SysDepartment sysDepartment);
+    List<SysDepartment> findPage(@NotNull Page page, @NotNull SysDepartment sysDepartment);
 
-    long findCount(Page page, SysDepartment sysDepartment);
+    long findCount(@NotNull Page page,@NotNull  SysDepartment sysDepartment);
 
-    List<SysDepartment> findAll(SysDepartment sysDepartment);
+    List<SysDepartment> findAll(@NotNull SysDepartment sysDepartment);
 
     List<SysDepartment> tree();
 
-    SysDepartment findById(@Valid @NotNull Long id);
+    SysDepartment findById(@NotNull Long id);
 
-    void save(@Valid SysDepartment sysDepartment);
+    void save(@NotNull SysDepartment sysDepartment);
 
-    void update(@Valid @NotNull Long id, @Valid SysDepartment sysDepartment);
+    void update(@NotNull Long id, @NotNull SysDepartment sysDepartment);
 
-    boolean delete(@Valid @NotNull Long id);
+    boolean delete(@NotNull Long id);
 }

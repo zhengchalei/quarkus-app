@@ -19,12 +19,4 @@ public interface GeneratorService {
 
     void resource(GenMetaData metaData);
 
-    @CheckedTemplate(requireTypeSafeExpressions = false)
-    public static class Templates {
-        public static native TemplateInstance resource(GenMetaData data);
-
-        public static native TemplateInstance service(GenMetaData data);
-
-        public static native TemplateInstance serviceImpl(GenMetaData data);
-    }
 }

@@ -1,6 +1,8 @@
 package io.github.zhengchalei.module.dev.service;
 
 import io.github.zhengchalei.module.dev.domain.GenMetaData;
+import io.quarkus.qute.CheckedTemplate;
+import io.quarkus.qute.TemplateInstance;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,16 @@ import java.util.regex.Matcher;
 public class GeneratorServiceImpl implements GeneratorService {
 
     private final Logger logger = LoggerFactory.getLogger(GeneratorService.class);
+
+    @CheckedTemplate(requireTypeSafeExpressions = false)
+    public static class Templates {
+
+        public static native TemplateInstance resource(GenMetaData data);
+
+        public static native TemplateInstance service(GenMetaData data);
+
+        public static native TemplateInstance serviceImpl(GenMetaData data);
+    }
 
     @Override
     public String buildPath(GenMetaData metaData, String... paths) {

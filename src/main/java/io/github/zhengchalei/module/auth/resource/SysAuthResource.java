@@ -1,17 +1,21 @@
 package io.github.zhengchalei.module.auth.resource;
 
+import io.github.zhengchalei.common.AuthUtil;
 import io.github.zhengchalei.module.auth.dto.LoginDTO;
 import io.github.zhengchalei.module.system.domain.SysUser;
 import io.quarkus.arc.impl.Sets;
 import io.quarkus.panache.common.Parameters;
+import io.quarkus.redis.client.RedisClient;
 import io.smallrye.jwt.build.Jwt;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.jwt.Claims;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +26,9 @@ public class SysAuthResource {
 
     @ConfigProperty(name = "mp.jwt.verify.issuer")
     String issuer;
+
+    @Inject
+    RedisClient redisClient;
 
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,6 +50,7 @@ public class SysAuthResource {
                 .claim(Claims.birthdate, "1998-10-23")
                 .expiresIn(Duration.ofHours(6))
                 .sign();
+        redisClient.set(List.of(AuthUtil.AUTH_KEY + user.id, token));
         return Map.of("token", token);
     }
 

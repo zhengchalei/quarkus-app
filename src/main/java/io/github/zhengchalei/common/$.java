@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-public class Util {
+public class $ {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

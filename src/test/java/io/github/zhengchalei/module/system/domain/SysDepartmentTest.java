@@ -2,7 +2,7 @@ package io.github.zhengchalei.module.system.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.zhengchalei.common.Util;
+import io.github.zhengchalei.common.$;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -32,6 +32,6 @@ class SysDepartmentTest {
         l2.persistAndFlush();
 
         List<SysDepartment> findAll = SysDepartment.findAll().list();
-        log.info("list: {}", new ObjectMapper().writeValueAsString(Util.tree(findAll)));
+        log.info("list: {}", new ObjectMapper().writeValueAsString($.tree(findAll)));
     }
 }

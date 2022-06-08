@@ -1,6 +1,6 @@
 package io.github.zhengchalei.module.dev.resource;
 
-import io.github.zhengchalei.common.Util;
+import io.github.zhengchalei.common.$;
 import io.github.zhengchalei.module.dev.domain.GenMetaData;
 import io.github.zhengchalei.module.dev.service.GeneratorService;
 
@@ -24,7 +24,7 @@ public class GeneratorResource {
     public String genOne(@BeanParam GenMetaData metaData) {
         GenMetaData genMetaData = buildMetaData(metaData);
         generatorFile(genMetaData);
-        return Util.toJsonStr(genMetaData);
+        return $.toJsonStr(genMetaData);
     }
 
     @POST
@@ -34,7 +34,7 @@ public class GeneratorResource {
     public List<String> genList(List<GenMetaData> list) {
         return list.stream().map(this::buildMetaData)
                 .peek(this::generatorFile)
-                .map(Util::toJsonStr)
+                .map($::toJsonStr)
                 .toList();
     }
 

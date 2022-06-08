@@ -1,10 +1,12 @@
 package io.github.zhengchalei.module.system.service.impl;
 
-import io.github.zhengchalei.common.Util;
+import io.github.zhengchalei.common.$;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysDepartment;
 import io.github.zhengchalei.module.system.service.SysDepartmentService;
 import io.quarkus.panache.common.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,10 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 /**
@@ -90,7 +88,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
     @Override
     public List<SysDepartment> tree() {
         List<SysDepartment> listAll = SysDepartment.listAll();
-        return Util.tree(listAll);
+        return $.tree(listAll);
     }
 
     @Override

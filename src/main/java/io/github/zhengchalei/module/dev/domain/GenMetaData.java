@@ -1,6 +1,6 @@
 package io.github.zhengchalei.module.dev.domain;
 
-import io.github.zhengchalei.common.Util;
+import io.github.zhengchalei.common.$;
 import io.github.zhengchalei.common.model.TreeNode;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -70,10 +70,10 @@ public class GenMetaData {
         this.tree = TreeNode.class.isAssignableFrom(entity);
         this.entity = entity;
         this.entityName = entity.getSimpleName();
-        this.lowerCaseEntityName = Util.firstLowerCase(entityName);
+        this.lowerCaseEntityName = $.firstLowerCase(entityName);
         this.entityPath = entity.getPackageName();
-        this.modulePath = Util.subLastStr(entityPath, ".domain");
-        this.removedPrefixName = Util.firstLowerCase(Util.removePrefix(prefix, this.entityName));
+        this.modulePath = $.subLastStr(entityPath, ".domain");
+        this.removedPrefixName = $.firstLowerCase($.removePrefix(prefix, this.entityName));
         return this;
     }
 

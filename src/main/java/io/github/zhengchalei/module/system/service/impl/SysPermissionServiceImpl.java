@@ -1,6 +1,6 @@
 package io.github.zhengchalei.module.system.service.impl;
 
-import io.github.zhengchalei.common.Util;
+import io.github.zhengchalei.common.$;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.github.zhengchalei.module.system.service.SysPermissionService;
@@ -55,7 +55,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     @Override
     public List<SysPermission> tree() {
         List<SysPermission> listAll = SysPermission.listAll();
-        return Util.tree(listAll);
+        return $.tree(listAll);
     }
 
     @Override

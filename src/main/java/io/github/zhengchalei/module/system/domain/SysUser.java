@@ -2,10 +2,11 @@ package io.github.zhengchalei.module.system.domain;
 
 import io.github.zhengchalei.common.model.BaseEntity;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class SysUser extends BaseEntity {
 
     @Schema(title = "用户角色")
     @ManyToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "sys_user_role", joinColumns = @JoinColumn(name = "sys_user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sys_role_id", referencedColumnName = "id"))
     public Set<SysRole> roles = new LinkedHashSet<>();
 

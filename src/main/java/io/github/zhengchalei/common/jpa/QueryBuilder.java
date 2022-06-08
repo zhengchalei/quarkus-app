@@ -2,10 +2,7 @@ package io.github.zhengchalei.common.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +60,11 @@ public class QueryBuilder<T> {
 
     public QueryBuilder<T> where(Predicate... predicate) {
         this.query.where(predicate);
+        return this;
+    }
+
+    public QueryBuilder<T> join(String field, JoinType joinType) {
+        this.root.fetch(field, joinType);
         return this;
     }
 }

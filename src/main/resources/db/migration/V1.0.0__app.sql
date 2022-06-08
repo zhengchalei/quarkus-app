@@ -7,6 +7,7 @@ create table sys_department
     sort        int4,
     description text,
     name        text,
+    version     int4,
     primary key (id)
 );
 
@@ -18,6 +19,7 @@ create table sys_permission
     code        text,
     description text,
     name        text,
+    version     int4,
     primary key (id)
 );
 
@@ -27,14 +29,8 @@ create table sys_role
     code        text,
     description text,
     name        text,
+    version     int4,
     primary key (id)
-);
-
-create table sys_role_permission
-(
-    sys_role_id       int8 not null,
-    sys_permission_id int8 not null,
-    primary key (sys_role_id, sys_permission_id)
 );
 
 create table sys_user
@@ -44,7 +40,15 @@ create table sys_user
     password      text,
     username      text,
     department_id int8,
+    version     int4,
     primary key (id)
+);
+
+create table sys_role_permission
+(
+    sys_role_id       int8 not null,
+    sys_permission_id int8 not null,
+    primary key (sys_role_id, sys_permission_id)
 );
 
 create table sys_user_role
@@ -91,12 +95,12 @@ alter table if exists sys_user_role
         foreign key (sys_user_id)
             references sys_user;
 
-INSERT INTO sys_department (parent_id, sort, description, name)
-VALUES (null, 0, '官网: https://zhengchalei.github.io', '总部');
-INSERT INTO sys_department (parent_id, sort, description, name)
-VALUES (1, 0, null, '上海分公司');
-INSERT INTO sys_department (parent_id, sort, description, name)
-VALUES (2, 0, null, '上海分公司开发部');
+INSERT INTO sys_department (parent_id, sort, description, name, version)
+VALUES (null, 0, '官网: https://zhengchalei.github.io', '总部', 1);
+INSERT INTO sys_department (parent_id, sort, description, name, version)
+VALUES (1, 0, null, '上海分公司', 1);
+INSERT INTO sys_department (parent_id, sort, description, name, version)
+VALUES (2, 0, null, '上海分公司开发部', 1);
 
 INSERT INTO sys_user(email, password, username, department_id)
 VALUES ('stone981023@gmail', '123456', 'admin', 1);

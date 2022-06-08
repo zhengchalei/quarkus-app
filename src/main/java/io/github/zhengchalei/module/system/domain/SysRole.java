@@ -32,11 +32,11 @@ public class SysRole extends BaseEntity {
     @Schema(title = "角色权限")
     // 授权: Authorization, 权限: Permission, 权力
     @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "sys_role_permission",
             joinColumns = @JoinColumn(name = "sys_role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "sys_permission_id", referencedColumnName = "id")
     )
-    @Fetch(FetchMode.SELECT)
     public Set<SysPermission> Permissions = new LinkedHashSet<>();
 
     @Override

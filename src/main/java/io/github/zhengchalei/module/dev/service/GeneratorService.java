@@ -1,8 +1,6 @@
 package io.github.zhengchalei.module.dev.service;
 
 import io.github.zhengchalei.module.dev.domain.GenMetaData;
-import io.quarkus.qute.CheckedTemplate;
-import io.quarkus.qute.TemplateInstance;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>

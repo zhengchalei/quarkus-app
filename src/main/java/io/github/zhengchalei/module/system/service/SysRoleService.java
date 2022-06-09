@@ -21,7 +21,7 @@ public interface SysRoleService {
 
     void save(@NotNull SysRole sysRole);
 
-    void update(@NotNull Long id,@NotNull  SysRole sysRole);
+    void update(@NotNull Long id, @NotNull SysRole sysRole);
 
     boolean delete(@NotNull Long id);
 }

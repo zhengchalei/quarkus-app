@@ -36,10 +36,6 @@ public abstract class TreeEntity<T> extends BaseEntity implements TreeNode<T> {
     @Transient
     public List<T> children = new ArrayList<>();
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
     public Integer getSort() {
         return sort;
     }
@@ -48,18 +44,22 @@ public abstract class TreeEntity<T> extends BaseEntity implements TreeNode<T> {
         this.sort = sort;
     }
 
-    public void setChildren(List<T> children) {
-        this.children = children;
-    }
-
     @Override
     public Long getParentId() {
         return this.parentId;
     }
 
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
     @Override
     public List<T> getChildren() {
         return this.children;
+    }
+
+    public void setChildren(List<T> children) {
+        this.children = children;
     }
 
     @Override

@@ -22,16 +22,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 
     private final Logger logger = LoggerFactory.getLogger(GeneratorService.class);
 
-    @CheckedTemplate(requireTypeSafeExpressions = false)
-    public static class Templates {
-
-        public static native TemplateInstance resource(GenMetaData data);
-
-        public static native TemplateInstance service(GenMetaData data);
-
-        public static native TemplateInstance serviceImpl(GenMetaData data);
-    }
-
     @Override
     public String buildPath(GenMetaData metaData, String... paths) {
         String projectPath = System.getProperty("user.dir");
@@ -89,5 +79,15 @@ public class GeneratorServiceImpl implements GeneratorService {
         String filePath = buildPath(metaData, "resource", metaData.entityName) + "Resource.java";
         String render = Templates.resource(metaData).render();
         createFileAndWrite(filePath, render, metaData);
+    }
+
+    @CheckedTemplate(requireTypeSafeExpressions = false)
+    public static class Templates {
+
+        public static native TemplateInstance resource(GenMetaData data);
+
+        public static native TemplateInstance service(GenMetaData data);
+
+        public static native TemplateInstance serviceImpl(GenMetaData data);
     }
 }

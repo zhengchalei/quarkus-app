@@ -70,15 +70,20 @@ alter table if exists sys_role
     add constraint uc_sys_role_name_code unique (name, code);
 CREATE INDEX idx_sys_role_name ON sys_role using gin (name gin_trgm_ops, code gin_trgm_ops);
 
-alter table if exists sys_role_permission add constraint fk_sys_role_permission__sys_permission_id foreign key (sys_permission_id) references sys_permission;
+alter table if exists sys_role_permission
+    add constraint fk_sys_role_permission__sys_permission_id foreign key (sys_permission_id) references sys_permission;
 
-alter table if exists sys_role_permission  add constraint fk_sys_role_permission__sys_role_id foreign key (sys_role_id) references sys_role;
+alter table if exists sys_role_permission
+    add constraint fk_sys_role_permission__sys_role_id foreign key (sys_role_id) references sys_role;
 
-alter table if exists sys_user add constraint fk_sys_user__department_id foreign key (department_id) references sys_department;
+alter table if exists sys_user
+    add constraint fk_sys_user__department_id foreign key (department_id) references sys_department;
 
-alter table if exists sys_user_role add constraint fk_sys_user_role__sys_role_id foreign key (sys_role_id) references sys_role;
+alter table if exists sys_user_role
+    add constraint fk_sys_user_role__sys_role_id foreign key (sys_role_id) references sys_role;
 
-alter table if exists sys_user_role add constraint fk_sys_user_role__sys_user_id foreign key (sys_user_id) references sys_user;
+alter table if exists sys_user_role
+    add constraint fk_sys_user_role__sys_user_id foreign key (sys_user_id) references sys_user;
 
 INSERT INTO sys_department (parent_id, sort, description, name, version)
 VALUES (null, 0, '官网: https://zhengchalei.github.io', '总部', 1);

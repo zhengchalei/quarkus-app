@@ -13,7 +13,7 @@ public interface SysDepartmentService {
 
     List<SysDepartment> findPage(@NotNull Page page, @NotNull SysDepartment sysDepartment);
 
-    long findCount(@NotNull Page page,@NotNull  SysDepartment sysDepartment);
+    long findCount(@NotNull Page page, @NotNull SysDepartment sysDepartment);
 
     List<SysDepartment> findAll(@NotNull SysDepartment sysDepartment);
 

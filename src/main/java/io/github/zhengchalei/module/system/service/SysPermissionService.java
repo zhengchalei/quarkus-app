@@ -23,7 +23,7 @@ public interface SysPermissionService {
 
     void save(@NotNull SysPermission sysPermission);
 
-    void update(@NotNull Long id,@NotNull  SysPermission sysPermission);
+    void update(@NotNull Long id, @NotNull SysPermission sysPermission);
 
     boolean delete(@NotNull Long id);
 }

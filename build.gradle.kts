@@ -1,6 +1,11 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
-    id "java"
-    id "io.quarkus"
+    id ("java")
+    id("io.quarkus")
+    kotlin("jvm") version "1.6.21"
+    kotlin("plugin.allopen") version "1.6.21"
+    kotlin("kapt") version "1.6.21"
 }
 
 repositories {
@@ -9,14 +14,12 @@ repositories {
     mavenLocal()
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
+val quarkusPlatformGroupId: String by project
+val quarkusPlatformArtifactId: String by project
+val quarkusPlatformVersion: String by project
 
 dependencies {
-    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     implementation("io.quarkus:quarkus-resteasy-reactive-qute")
@@ -54,10 +57,10 @@ dependencies {
     implementation ("jakarta.persistence:jakarta.persistence-api:3.1.0")
     implementation ("org.projectlombok:lombok:1.18.24")
     implementation("org.mapstruct:mapstruct:1.4.2.Final")
-    annotationProcessor(
-            "org.projectlombok:lombok:1.18.24",
-            "org.mapstruct:mapstruct-processor:1.4.2.Final"
-    )
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+    kapt("org.projectlombok:lombok:1.18.24")
+    kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
 
     implementation("io.quarkus:quarkus-mailer")
     implementation("io.quarkus:quarkus-cache")
@@ -65,6 +68,9 @@ dependencies {
     implementation("io.quarkus:quarkus-arc")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
     implementation("org.apache.commons:commons-lang3:3.12.0")
+
+    implementation("io.quarkus:quarkus-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.quarkus:quarkus-panache-mock")
@@ -80,11 +86,22 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-compileJava {
-    options.encoding = "UTF-8"
-    options.compilerArgs << "-parameters"
+allOpen {
+    annotation("javax.ws.rs.Path")
+    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("io.quarkus.test.junit.QuarkusTest")
 }
 
-compileTestJava {
-    options.encoding = "UTF-8"
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+    kotlinOptions.javaParameters = true
 }
+
+//compileJava {
+//    options.encoding = "UTF-8"
+//    options.compilerArgs << "-parameters"
+//}
+//
+//compileTestJava {
+//    options.encoding = "UTF-8"
+//}

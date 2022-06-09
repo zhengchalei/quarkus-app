@@ -50,7 +50,7 @@ public class SysAuthResource {
                 .claim(Claims.birthdate, "1998-10-23")
                 .expiresIn(Duration.ofHours(6))
                 .sign();
-        redisClient.set(List.of(AuthUtil.AUTH_KEY + user.id, token));
+        redisClient.set(List.of(AuthUtil.AUTH_KEY + user.getId(), token));
         return Map.of("token", token);
     }
 

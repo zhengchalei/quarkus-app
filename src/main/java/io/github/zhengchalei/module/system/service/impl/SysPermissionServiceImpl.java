@@ -26,10 +26,10 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 
     private QueryBuilder<SysPermission> queryBuilder(SysPermission sysPermission) {
         QueryBuilder<SysPermission> queryBuilder = new QueryBuilder<>(entityManager, SysPermission.class);
-        if (sysPermission.id != null) {
+        if (sysPermission.getId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("id"),
-                    sysPermission.id
+                    sysPermission.getId()
             );
             queryBuilder.where(predicate);
         }

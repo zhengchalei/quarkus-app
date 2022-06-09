@@ -31,10 +31,10 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
     private QueryBuilder<SysDepartment> queryBuilder(SysDepartment sysDepartment) {
         logger.info("queryBuilder args: {}", sysDepartment);
         QueryBuilder<SysDepartment> queryBuilder = new QueryBuilder<>(entityManager, SysDepartment.class);
-        if (sysDepartment.id != null) {
+        if (sysDepartment.getId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("id"),
-                    sysDepartment.id
+                    sysDepartment.getId()
             );
             queryBuilder.where(predicate);
         }
@@ -52,17 +52,17 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
             );
             queryBuilder.where(predicate);
         }
-        if (sysDepartment.sort != null) {
+        if (sysDepartment.getSort() != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("sort"),
-                    sysDepartment.sort
+                    sysDepartment.getSort()
             );
             queryBuilder.where(predicate);
         }
-        if (sysDepartment.parentId != null) {
+        if (sysDepartment.getParentId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("parentId"),
-                    sysDepartment.parentId
+                    sysDepartment.getParentId()
             );
             queryBuilder.where(predicate);
         }

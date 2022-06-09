@@ -2,16 +2,14 @@ package io.github.zhengchalei.module.system.domain;
 
 import io.github.zhengchalei.common.model.BaseEntity;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-
 
 @Schema(title = "系统用户")
 @Entity

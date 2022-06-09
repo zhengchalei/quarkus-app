@@ -50,7 +50,7 @@ public class SysUserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid SysUserDto sysUserDto) {
         service.save(sysUserDto);
-        return Response.created(URI.create(PATH + sysUserDto.getId())).build();
+        return Response.created(URI.create(PATH + sysUserDto.id)).build();
     }
 
     @PUT

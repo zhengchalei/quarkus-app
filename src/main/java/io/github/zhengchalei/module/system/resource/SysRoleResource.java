@@ -50,7 +50,7 @@ public class SysRoleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid SysRole sysRole) {
         service.save(sysRole);
-        return Response.created(URI.create(PATH + sysRole.id)).build();
+        return Response.created(URI.create(PATH + sysRole.getId())).build();
     }
 
     @PUT

@@ -25,10 +25,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     private QueryBuilder<SysRole> queryBuilder(SysRole sysRole) {
         QueryBuilder<SysRole> queryBuilder = new QueryBuilder<>(entityManager, SysRole.class);
-        if (sysRole.id != null) {
+        if (sysRole.getId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("id"),
-                    sysRole.id
+                    sysRole.getId()
             );
             queryBuilder.where(predicate);
         }

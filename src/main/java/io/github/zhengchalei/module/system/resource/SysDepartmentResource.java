@@ -56,7 +56,7 @@ public class SysDepartmentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid SysDepartment sysDepartment) {
         service.save(sysDepartment);
-        return Response.created(URI.create(PATH + sysDepartment.id)).build();
+        return Response.created(URI.create(PATH + sysDepartment.getId())).build();
     }
 
     @PUT

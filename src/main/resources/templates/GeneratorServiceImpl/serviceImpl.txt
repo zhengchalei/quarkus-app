@@ -27,10 +27,10 @@ public class {data.entityName}ServiceImpl implements {data.entityName}Service {
 
     private QueryBuilder<{data.entityName}> queryBuilder({data.entityName} {data.lowerCaseEntityName}) {
         QueryBuilder<{data.entityName}> queryBuilder = new QueryBuilder<>(entityManager, {data.entityName}.class);
-        if ({data.lowerCaseEntityName}.id != null) {
+        if ({data.lowerCaseEntityName}.getId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("id"),
-                    {data.lowerCaseEntityName}.id
+                    {data.lowerCaseEntityName}.getId()
             );
             queryBuilder.where(predicate);
         }

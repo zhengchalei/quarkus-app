@@ -56,7 +56,7 @@ public class SysPermissionResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid SysPermission sysPermission) {
         service.save(sysPermission);
-        return Response.created(URI.create(PATH + sysPermission.id)).build();
+        return Response.created(URI.create(PATH + sysPermission.getId())).build();
     }
 
     @PUT

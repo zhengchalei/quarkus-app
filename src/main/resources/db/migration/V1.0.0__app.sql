@@ -1,3 +1,5 @@
+create sequence hibernate_sequence start 1 increment 1;
+
 create extension if not exists pg_trgm;
 
 create table sys_department
@@ -92,5 +94,5 @@ VALUES (1, 0, null, '上海分公司', 1);
 INSERT INTO sys_department (parent_id, sort, description, name, version)
 VALUES (2, 0, null, '上海分公司开发部', 1);
 
-INSERT INTO sys_user(email, password, username, department_id)
-VALUES ('stone981023@gmail', '123456', 'admin', 1);
+INSERT INTO sys_user(email, password, username, department_id, version)
+VALUES ('stone981023@gmail', '123456', 'admin', 1, 0);

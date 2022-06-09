@@ -22,7 +22,6 @@ public class SysUser extends BaseEntity {
     @Email
     @Schema(title = "用户邮箱", example = "stone981023@gmail.com")
     public String email;
-
     @Schema(title = "用户密码", example = "123456")
     public String password;
 

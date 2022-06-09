@@ -81,12 +81,11 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public void update(Long id, SysUserDto sysUserDto) {
-        SysUser data = this.sysUserMapper.sysUserDtoToSysUser(sysUserDto);
-        if (data == null) {
-            throw new NotFoundException();
-        }
+        SysUser flush = SysUser.findById(id);
+        flush.username = sysUserDto.username;
+        flush.email = sysUserDto.email;
         // change
-        data.persistAndFlush();
+        flush.isPersistent();
     }
 
     @Override

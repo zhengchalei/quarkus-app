@@ -23,7 +23,6 @@ public abstract class BaseEntity extends PanacheEntityBase {
     @Version
     public Long version;
 
-
     public Long getId() {
         return id;
     }

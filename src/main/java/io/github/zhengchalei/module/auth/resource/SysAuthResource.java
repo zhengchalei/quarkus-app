@@ -39,7 +39,7 @@ public class SysAuthResource {
                         "username = :username",
                         Parameters.with("username", loginDto.username)
                 ).firstResultOptional()
-                .orElseThrow(() -> new NotFoundException("用户名不存在"));
+                .orElseThrow(() -> new RuntimeException("用户名不存在"));
         if (!user.password.equals(loginDto.password)) {
             throw new RuntimeException("密码不正确!");
         }

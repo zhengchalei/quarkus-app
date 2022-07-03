@@ -8,6 +8,11 @@ import javax.persistence.*;
 import javax.ws.rs.QueryParam;
 import java.util.Objects;
 
+/**
+ * 基础实体
+ *
+ * @author 郑查磊
+ */
 @MappedSuperclass
 public abstract class BaseEntity extends PanacheEntityBase {
 

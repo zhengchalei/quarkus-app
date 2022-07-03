@@ -5,6 +5,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import javax.ws.rs.QueryParam;
 
 /**
+ * 分页
+ *
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
 public class Page {

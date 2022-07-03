@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * 实现了 TreeNode 的 节点实现类
+ *
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
 @MappedSuperclass

@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 /**
  * GeneratorMetaData
  *
- * @author zhengchalei
+ * @author 郑查磊
  */
 @Schema(title = "代码生成")
 public class GenMetaData {

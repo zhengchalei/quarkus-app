@@ -58,8 +58,12 @@ dependencies {
     implementation("io.quarkus:quarkus-quartz")
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
 
-    implementation("org.mapstruct:mapstruct:1.4.2.Final")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
+    implementation("org.mapstruct:mapstruct:1.5.1.Final")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.1.Final")
+//    implementation("com.querydsl:querydsl-jpa:5.0.0")
+//    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jpa")
+
 
     implementation("io.quarkus:quarkus-mailer")
     implementation("io.quarkus:quarkus-cache")
@@ -82,10 +86,10 @@ java {
 }
 
 compileJava {
-    options.encoding = 'UTF-8'
-    options.compilerArgs << '-parameters'
+    options.encoding = "UTF-8"
+    options.compilerArgs << "-parameters"
 }
 
 compileTestJava {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }

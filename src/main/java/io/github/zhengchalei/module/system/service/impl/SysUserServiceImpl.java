@@ -1,6 +1,6 @@
 package io.github.zhengchalei.module.system.service.impl;
 
-import io.github.zhengchalei.common.jpa.QueryBuilder;
+import com.speedment.jpastreamer.application.JPAStreamer;
 import io.github.zhengchalei.module.system.domain.SysUser;
 import io.github.zhengchalei.module.system.dto.SysUserDto;
 import io.github.zhengchalei.module.system.mapper.SysUserMapper;
@@ -9,11 +9,10 @@ import io.quarkus.panache.common.Page;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
@@ -23,27 +22,12 @@ import java.util.List;
 public class SysUserServiceImpl implements SysUserService {
 
     @Inject
-    EntityManager entityManager;
-
-    @Inject
-    SysUserMapper sysUserMapper;
-
-    private QueryBuilder<SysUser> queryBuilder(SysUser sysUser) {
-        QueryBuilder<SysUser> queryBuilder = new QueryBuilder<>(entityManager, SysUser.class);
-        if (sysUser.id != null) {
-            Predicate predicate = queryBuilder.cb.equal(
-                    queryBuilder.root.get("id"),
-                    sysUser.id
-            );
-            queryBuilder.where(predicate);
-        }
-        return queryBuilder;
-    }
+    JPAStreamer jpaStreamer;
 
     @Override
     public List<SysUserDto> findPage(Page page, SysUserDto sysUserDto) {
         List<SysUser> list = SysUser.<SysUser>findAll().page(page).list();
-        return this.sysUserMapper.sysUserListToSysUserDtoList(list);
+        return list.stream().map(SysUserMapper.MAPPER::sysUserToSysUserDto).toList();
     }
 
     @Override
@@ -57,11 +41,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public List<SysUserDto> findList(SysUserDto sysUserDto) {
-        SysUser sysUser = this.sysUserMapper.sysUserDtoToSysUser(sysUserDto);
-        QueryBuilder<SysUser> queryBuilder = this.queryBuilder(sysUser);
-        List<SysUser> list = queryBuilder.exec().getResultList();
-        return this.sysUserMapper.sysUserListToSysUserDtoList(list);
+    public List<SysUserDto> findList(SysUserDto dto) {
+        Stream<SysUser> stream = jpaStreamer.stream(SysUser.class);
+        if (dto.id != null) {
+            stream = stream.filter(w -> w.id.equals(dto.id));
+        }
+        List<SysUser> list = stream.toList();
+        return list.stream().map(SysUserMapper.MAPPER::sysUserToSysUserDto).toList();
     }
 
     @Override
@@ -70,12 +56,12 @@ public class SysUserServiceImpl implements SysUserService {
         if (data == null) {
             throw new NotFoundException();
         }
-        return this.sysUserMapper.sysUserToSysUserDto(data);
+        return SysUserMapper.MAPPER.sysUserToSysUserDto(data);
     }
 
     @Override
     public void save(SysUserDto sysUserDto) {
-        SysUser sysUser = this.sysUserMapper.sysUserDtoToSysUser(sysUserDto);
+        SysUser sysUser = SysUserMapper.MAPPER.sysUserDtoToSysUser(sysUserDto);
         sysUser.persistAndFlush();
     }
 

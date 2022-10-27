@@ -62,15 +62,15 @@ create table sys_user_role
 
 alter table if exists sys_department
     add constraint uc_sys_department_name unique (name);
-CREATE INDEX idx_sys_department_name ON sys_department using gin (name gin_trgm_ops);
+CREATE INDEX idx_sys_department_name ON sys_department (name);
 
 alter table if exists sys_permission
     add constraint uc_sys_permission_name_code unique (name, code);
-CREATE INDEX idx_sys_permission_name ON sys_permission using gin (name gin_trgm_ops, code gin_trgm_ops);
+CREATE INDEX idx_sys_permission_name ON sys_permission (name, code);
 
 alter table if exists sys_role
     add constraint uc_sys_role_name_code unique (name, code);
-CREATE INDEX idx_sys_role_name ON sys_role using gin (name gin_trgm_ops, code gin_trgm_ops);
+CREATE INDEX idx_sys_role_name ON sys_role (name, code);
 
 alter table if exists sys_role_permission
     add constraint fk_sys_role_permission__sys_permission_id foreign key (sys_permission_id) references sys_permission;
@@ -100,7 +100,7 @@ VALUES ('stone981023@gmail', '123456', 'admin', 1, 0);
 INSERT INTO sys_role(code, description, name, version)
 VALUES ('admin', '超级管理员', '超级管理员', 1);
 
-insert into sys_permission ( parent_id, sort, code, description, name, version)
+insert into sys_permission (parent_id, sort, code, description, name, version)
 values (0, 0, 'sys', '系统管理资源', '系统管理', 1);
 
 insert into sys_role_permission (sys_role_id, sys_permission_id)

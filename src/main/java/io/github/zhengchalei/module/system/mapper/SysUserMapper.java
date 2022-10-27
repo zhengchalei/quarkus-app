@@ -2,24 +2,17 @@ package io.github.zhengchalei.module.system.mapper;
 
 import io.github.zhengchalei.module.system.domain.SysUser;
 import io.github.zhengchalei.module.system.dto.SysUserDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.NullValueMappingStrategy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
-/**
- * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
- * @since 1.0.0
- **/
-@Mapper(componentModel = "cdi", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, nullValueMapMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysUserMapper {
-
-    SysUserDto sysUserToSysUserDto(SysUser sysUser);
+    SysUserMapper MAPPER = Mappers.getMapper(SysUserMapper.class);
 
     SysUser sysUserDtoToSysUser(SysUserDto sysUserDto);
 
-    List<SysUserDto> sysUserListToSysUserDtoList(List<SysUser> sysUser);
+    SysUserDto sysUserToSysUserDto(SysUser sysUser);
 
-    List<SysUser> sysUserDtoListToSysUserList(List<SysUserDto> sysUserDto);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    SysUser updateSysUserFromSysUserDto(SysUserDto sysUserDto, @MappingTarget SysUser sysUser);
 }

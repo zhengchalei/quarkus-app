@@ -19,6 +19,7 @@ idea {
 
 java.sourceSets["main"].java {
     srcDir("src/gen/java")
+    srcDir("target/generated-sources/annotations")
 }
 
 group = "io.github.zhengchalei"
@@ -26,15 +27,14 @@ version = "1.0"
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+
     implementation("io.quarkus:quarkus-smallrye-openapi")
-    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
-    implementation("io.quarkus:quarkus-spring-web")
-    implementation("io.quarkus:quarkus-resteasy-reactive-qute")
+    implementation("io.quarkus:quarkus-resteasy-jackson")
+    implementation("io.quarkus:quarkus-smallrye-graphql")
 
     implementation("io.quarkus:quarkus-qute")
     implementation("io.quarkus:quarkus-smallrye-jwt")
     implementation("io.quarkus:quarkus-smallrye-jwt-build")
-    implementation("io.quarkus:quarkus-smallrye-health")
 
     implementation("io.quarkus:quarkus-kubernetes")
     implementation("io.quarkus:quarkus-container-image-jib")
@@ -49,24 +49,17 @@ dependencies {
     // redis
     implementation("io.quarkus:quarkus-redis-client")
 
-    implementation("io.quarkus:quarkus-smallrye-graphql")
-    implementation("org.eclipse.microprofile.metrics:microprofile-metrics-api")
-
     // other
-    implementation("io.quarkus:quarkus-spring-di")
-    implementation("io.quarkus:quarkus-scheduler")
-    implementation("io.quarkus:quarkus-quartz")
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
 
-    implementation("org.mapstruct:mapstruct:1.5.1.Final")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.1.Final")
+    implementation('org.mapstruct:mapstruct:1.5.3.Final')
+    annotationProcessor('org.mapstruct:mapstruct-processor:1.5.3.Final')
+    implementation("com.speedment.jpastreamer:jpastreamer-core:1.1.0")
+    annotationProcessor("com.speedment.jpastreamer:fieldgenerator-standard:1.1.0")
 
-    implementation("io.quarkus:quarkus-mailer")
     implementation("io.quarkus:quarkus-cache")
     implementation("io.quarkus:quarkus-vertx")
     implementation("io.quarkus:quarkus-arc")
-    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
 
     implementation("io.quarkus:quarkus-kotlin")
 

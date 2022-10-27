@@ -1,9 +1,9 @@
 package io.github.zhengchalei.module.dev.service;
 
+import io.github.zhengchalei.common.exception.ServiceException;
 import io.github.zhengchalei.module.dev.domain.GenMetaData;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,19 +25,20 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Override
     public String buildPath(GenMetaData metaData, String... paths) {
         String projectPath = System.getProperty("user.dir");
-        String packagePath = StringUtils.join(projectPath,
-                File.separator,
-                "src",
-                File.separator,
-                "main",
-                File.separator,
-                "java",
-                File.separator,
-                metaData.modulePath,
-                File.separator
+        String packagePath = String.join("",
+            projectPath,
+            File.separator,
+            "src",
+            File.separator,
+            "main",
+            File.separator,
+            "java",
+            File.separator,
+            metaData.modulePath,
+            File.separator
         );
         String returnPath = packagePath + String.join(File.separator, paths);
-        return returnPath.replaceAll("\\.", Matcher.quoteReplacement(File.separator));
+        return returnPath.replace("\\.", Matcher.quoteReplacement(File.separator));
     }
 
     @Override
@@ -48,7 +49,7 @@ public class GeneratorServiceImpl implements GeneratorService {
                 boolean bool = file.createNewFile();
                 logger.info("创建文件: {}, {}", file.getName(), bool);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new ServiceException(e);
             }
             try (FileOutputStream outputStream = new FileOutputStream(path)) {
                 outputStream.write(data.getBytes(StandardCharsets.UTF_8));

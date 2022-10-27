@@ -3,9 +3,8 @@ package io.github.zhengchalei.module.system.dto;
 import java.io.Serializable;
 
 /**
- * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
- * @since 1.0.0
- **/
+ * A DTO for the {@link io.github.zhengchalei.module.system.domain.SysDepartment} entity
+ */
 public class SysDepartmentDto implements Serializable {
     public Long id;
     public Long version;
@@ -13,4 +12,5 @@ public class SysDepartmentDto implements Serializable {
     public Integer sort = 0;
     public String name;
     public String description;
+
 }

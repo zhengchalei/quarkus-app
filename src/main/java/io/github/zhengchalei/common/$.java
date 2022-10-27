@@ -2,12 +2,12 @@ package io.github.zhengchalei.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.zhengchalei.common.exception.ServiceException;
 import io.github.zhengchalei.common.model.TreeEntity;
 import io.github.zhengchalei.common.model.TreeNode;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 工具类
@@ -27,9 +27,9 @@ public class $ {
      */
     private static <T extends TreeNode<T>> T genChildren(final T root, final Collection<T> list) {
         list
-                .stream()
-                .filter(it -> root.getId().equals(it.getParentId()))
-                .forEach(it -> root.getChildren().add(genChildren(it, list)));
+            .stream()
+            .filter(it -> root.getId().equals(it.getParentId()))
+            .forEach(it -> root.getChildren().add(genChildren(it, list)));
         return root;
     }
 
@@ -42,9 +42,9 @@ public class $ {
     public static <T extends TreeNode<T>> List<T> tree(List<T> list) {
         // 找到 Root
         return list.stream()
-                .filter(t -> t.getParentId() == null)
-                .peek(it -> genChildren(it, list))
-                .collect(Collectors.toList());
+            .filter(t -> t.getParentId() == null)
+            .map(it -> genChildren(it, list))
+            .toList();
     }
 
     /**
@@ -85,7 +85,7 @@ public class $ {
         try {
             return objectMapper.writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new ServiceException();
         }
     }
 

@@ -3,9 +3,8 @@ package io.github.zhengchalei.module.system.dto;
 import java.io.Serializable;
 
 /**
- * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
- * @since 1.0.0
- **/
+ * A DTO for the {@link io.github.zhengchalei.module.system.domain.SysPermission} entity
+ */
 public class SysPermissionDto implements Serializable {
     public Long id;
     public Long version;

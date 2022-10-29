@@ -1,29 +1,24 @@
 plugins {
-    id "idea"
-    id "java"
-    id "io.quarkus"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.allopen") version "1.7.20"
+    kotlin("kapt") version "1.7.20"
+    id("io.quarkus")
 }
 
 repositories {
-//    maven { url "https://maven.aliyun.com/repository/public/" }
+//    maven {
+//        url = uri("https://maven.aliyun.com/repository/public/")
+//    }
     mavenCentral()
     mavenLocal()
 }
 
-idea {
-    module {
-        sourceDirs += file('generated/')
-        generatedSourceDirs += file('generated/')
-    }
-}
+var group = "io.github.zhengchalei"
+var version = "1.0"
 
-java.sourceSets["main"].java {
-    srcDir("src/gen/java")
-    srcDir("target/generated-sources/annotations")
-}
-
-group = "io.github.zhengchalei"
-version = "1.0"
+val quarkusPlatformGroupId: String by project
+val quarkusPlatformArtifactId: String by project
+val quarkusPlatformVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
@@ -52,10 +47,10 @@ dependencies {
     // other
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
 
-    implementation('org.mapstruct:mapstruct:1.5.3.Final')
-    annotationProcessor('org.mapstruct:mapstruct-processor:1.5.3.Final')
+    implementation("org.mapstruct:mapstruct:1.5.3.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
     implementation("com.speedment.jpastreamer:jpastreamer-core:1.1.0")
-    annotationProcessor("com.speedment.jpastreamer:fieldgenerator-standard:1.1.0")
+    kapt("com.speedment.jpastreamer:fieldgenerator-standard:1.1.0")
 
     implementation("io.quarkus:quarkus-cache")
     implementation("io.quarkus:quarkus-vertx")
@@ -74,11 +69,25 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-compileJava {
-    options.encoding = "UTF-8"
-    options.compilerArgs << "-parameters"
+
+tasks.withType<Test> {
+    systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
 
-compileTestJava {
-    options.encoding = "UTF-8"
+allOpen {
+    annotation("javax.ws.rs.Path")
+    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("io.quarkus.test.junit.QuarkusTest")
 }
+
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.compilerArgs.add("-parameters")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlinOptions.javaParameters = true
+}
+

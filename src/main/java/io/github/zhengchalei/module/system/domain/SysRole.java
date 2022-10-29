@@ -37,18 +37,18 @@ public class SysRole extends BaseEntity {
             joinColumns = @JoinColumn(name = "sys_role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "sys_permission_id", referencedColumnName = "id")
     )
-    public Set<SysPermission> Permissions = new LinkedHashSet<>();
+    public Set<SysPermission> permissions = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SysRole sysRole = (SysRole) o;
-        return Objects.equals(name, sysRole.name) && Objects.equals(code, sysRole.code) && Objects.equals(description, sysRole.description) && Objects.equals(Permissions, sysRole.Permissions);
+        return Objects.equals(name, sysRole.name) && Objects.equals(code, sysRole.code) && Objects.equals(description, sysRole.description) && Objects.equals(permissions, sysRole.permissions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, code, description, Permissions);
+        return Objects.hash(name, code, description, permissions);
     }
 }

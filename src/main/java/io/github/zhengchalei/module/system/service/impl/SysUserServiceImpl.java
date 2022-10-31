@@ -1,7 +1,9 @@
 package io.github.zhengchalei.module.system.service.impl;
 
 import com.speedment.jpastreamer.application.JPAStreamer;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import io.github.zhengchalei.module.system.domain.SysUser;
+import io.github.zhengchalei.module.system.domain.SysUser$;
 import io.github.zhengchalei.module.system.dto.SysUserDto;
 import io.github.zhengchalei.module.system.mapper.SysUserMapper;
 import io.github.zhengchalei.module.system.service.SysUserService;
@@ -42,12 +44,14 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysUserDto> findList(SysUserDto dto) {
-        Stream<SysUser> stream = jpaStreamer.stream(SysUser.class);
+        StreamConfiguration<SysUser> of = StreamConfiguration.of(SysUser.class)
+            .joining(SysUser$.department)
+            .joining(SysUser$.roles);
+        Stream<SysUser> stream = jpaStreamer.stream(of);
         if (dto.id != null) {
             stream = stream.filter(w -> w.id.equals(dto.id));
         }
-        List<SysUser> list = stream.toList();
-        return list.stream().map(SysUserMapper.MAPPER::sysUserToSysUserDto).toList();
+        return stream.map(SysUserMapper.MAPPER::sysUserToSysUserDto).toList();
     }
 
     @Override

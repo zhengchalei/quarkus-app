@@ -5,8 +5,8 @@ import io.github.zhengchalei.module.system.service.SysUserService;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Query;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  * @since 1.0.0
  **/
 @GraphQLApi
-@Singleton
+@RequestScoped
 public class SysUserGraphService {
 
     @Inject

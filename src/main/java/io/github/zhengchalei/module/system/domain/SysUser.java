@@ -1,5 +1,6 @@
 package io.github.zhengchalei.module.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.zhengchalei.common.model.BaseEntity;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.Fetch;
@@ -22,6 +23,7 @@ public class SysUser extends BaseEntity {
     @Email
     @Schema(title = "用户邮箱", example = "stone981023@gmail.com")
     public String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(title = "用户密码", example = "123456")
     public String password;
 

@@ -1,29 +1,117 @@
 package io.github.zhengchalei.module.system.service;
 
+import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysDepartment;
 import io.quarkus.panache.common.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-public interface SysDepartmentService {
+@Singleton
+@Transactional
+public class SysDepartmentService {
 
-    List<SysDepartment> findPage(@NotNull Page page, @NotNull SysDepartment sysDepartment);
+    private final Logger logger = LoggerFactory.getLogger(SysDepartmentService.class);
 
-    long findCount(@NotNull Page page, @NotNull SysDepartment sysDepartment);
+    @Inject
+    EntityManager entityManager;
 
-    List<SysDepartment> findAll(@NotNull SysDepartment sysDepartment);
+    private QueryBuilder<SysDepartment> queryBuilder(SysDepartment sysDepartment) {
+        logger.info("queryBuilder args: {}", sysDepartment);
+        QueryBuilder<SysDepartment> queryBuilder = new QueryBuilder<>(entityManager, SysDepartment.class);
+        if (sysDepartment.getId() != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("id"),
+                sysDepartment.getId()
+            );
+            queryBuilder.where(predicate);
+        }
+        if (sysDepartment.name != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("name"),
+                sysDepartment.name
+            );
+            queryBuilder.where(predicate);
+        }
+        if (sysDepartment.description != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("description"),
+                sysDepartment.description
+            );
+            queryBuilder.where(predicate);
+        }
+        if (sysDepartment.sort != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("sort"),
+                sysDepartment.sort
+            );
+            queryBuilder.where(predicate);
+        }
+        if (sysDepartment.parentId != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("parentId"),
+                sysDepartment.parentId
+            );
+            queryBuilder.where(predicate);
+        }
+        return queryBuilder;
+    }
 
-    List<SysDepartment> tree();
 
-    SysDepartment findById(@NotNull Long id);
+    public List<SysDepartment> findPage(Page page, SysDepartment sysDepartment) {
+        return SysDepartment.findAll().page(page).list();
+    }
 
-    void save(@NotNull SysDepartment sysDepartment);
 
-    void update(@NotNull Long id, @NotNull SysDepartment sysDepartment);
+    public long findCount(Page page, SysDepartment sysDepartment) {
+        return SysDepartment.findAll().page(page).count();
+    }
 
-    boolean delete(@NotNull Long id);
+
+    public List<SysDepartment> findAll(SysDepartment sysDepartment) {
+        QueryBuilder<SysDepartment> queryBuilder = this.queryBuilder(sysDepartment);
+        return queryBuilder.exec().getResultList();
+    }
+
+
+//    public List<SysDepartment> tree() {
+//        List<SysDepartment> listAll = SysDepartment.listAll();
+//        return $.tree(listAll);
+//    }
+
+
+    public SysDepartment findById(Long id) {
+        SysDepartment data = SysDepartment.findById(id);
+        if (data == null) {
+            throw new NotFoundException();
+        }
+        return data;
+    }
+
+
+    public void save(SysDepartment sysDepartment) {
+        sysDepartment.persistAndFlush();
+    }
+
+
+    public void update(Long id, SysDepartment sysDepartment) {
+        SysDepartment flush = findById(id);
+        // change
+        flush.persistAndFlush();
+    }
+
+
+    public boolean delete(Long id) {
+        return SysDepartment.deleteById(id);
+    }
 }

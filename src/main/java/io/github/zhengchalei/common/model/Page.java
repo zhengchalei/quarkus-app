@@ -1,5 +1,6 @@
 package io.github.zhengchalei.common.model;
 
+import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import javax.ws.rs.QueryParam;
@@ -14,16 +15,18 @@ public class Page {
     /**
      * The current page index (0-based).
      */
+    @Description("分页的起始页")
     @Schema(defaultValue = "1")
     @QueryParam("index")
-    public int index = 1;
+    public long index = 1;
 
     /**
      * The current page size;
      */
+    @Description("查询数量")
     @Schema(defaultValue = "20")
     @QueryParam("size")
-    public int size = 20;
+    public long size = 20;
 
     public Page() {
     }
@@ -33,9 +36,9 @@ public class Page {
      *
      * @param size the page size
      * @throws IllegalArgumentException if the page size is less than or equal to 0
-     * @see #ofSize(int)
+     * @see #ofSize(long)
      */
-    public Page(int size) {
+    public Page(long size) {
         this(1, size);
     }
 
@@ -46,9 +49,9 @@ public class Page {
      * @param size  the page size
      * @throws IllegalArgumentException if the page index is less than 0
      * @throws IllegalArgumentException if the page size is less than or equal to 0
-     * @see #of(int, int)
+     * @see #of(long, long)
      */
-    public Page(int index, int size) {
+    public Page(long index, long size) {
         if (index < 0) throw new IllegalArgumentException("Page index must be >= 0 : " + index);
         if (size <= 0) throw new IllegalArgumentException("Page size must be > 0 : " + size);
         this.index = index;
@@ -63,7 +66,7 @@ public class Page {
      * @throws IllegalArgumentException if the page index is less than 0
      * @throws IllegalArgumentException if the page size is less than or equal to 0
      */
-    public static Page of(int index, int size) {
+    public static Page of(long index, long size) {
         return new Page(index, size);
     }
 
@@ -73,7 +76,7 @@ public class Page {
      * @param size the page size
      * @throws IllegalArgumentException if the page size is less than or equal to 0
      */
-    public static Page ofSize(int size) {
+    public static Page ofSize(long size) {
         return new Page(size);
     }
 
@@ -112,11 +115,15 @@ public class Page {
      * @param newIndex the new page index
      * @return a new page at the given page index and the same size, or this page if the page index is the same.
      */
-    public Page index(int newIndex) {
+    public Page index(long newIndex) {
         return newIndex != index ? new Page(newIndex, size) : this;
     }
 
-    public io.quarkus.panache.common.Page build() {
-        return new io.quarkus.panache.common.Page(this.index - 1, this.size);
+    public long skip() {
+        return (this.index - 1) * this.size;
+    }
+
+    public long limit() {
+        return this.size;
     }
 }

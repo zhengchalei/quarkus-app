@@ -1,29 +1,76 @@
 package io.github.zhengchalei.module.system.service;
 
+import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.quarkus.panache.common.Page;
 
-import javax.validation.constraints.NotNull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-public interface SysPermissionService {
+@Singleton
+@Transactional
+public class SysPermissionService {
 
-    List<SysPermission> findPage(@NotNull Page page, @NotNull SysPermission sysPermission);
+    @Inject
+    EntityManager entityManager;
 
-    long findCount(@NotNull Page page, @NotNull SysPermission sysPermission);
+    private QueryBuilder<SysPermission> queryBuilder(SysPermission sysPermission) {
+        QueryBuilder<SysPermission> queryBuilder = new QueryBuilder<>(entityManager, SysPermission.class);
+        if (sysPermission.getId() != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("id"),
+                sysPermission.getId()
+            );
+            queryBuilder.where(predicate);
+        }
+        return queryBuilder;
+    }
 
-    List<SysPermission> findAll(SysPermission sysPermission);
 
-    List<SysPermission> tree();
+    public List<SysPermission> findPage(Page page, SysPermission sysPermission) {
+        return SysPermission.findAll().page(page).list();
+    }
 
-    SysPermission findById(@NotNull Long id);
 
-    void save(@NotNull SysPermission sysPermission);
+    public long findCount(Page page, SysPermission sysPermission) {
+        return SysPermission.findAll().page(page).count();
+    }
 
-    void update(@NotNull Long id, @NotNull SysPermission sysPermission);
 
-    boolean delete(@NotNull Long id);
+    public List<SysPermission> findAll(SysPermission sysPermission) {
+        QueryBuilder<SysPermission> queryBuilder = this.queryBuilder(sysPermission);
+        return queryBuilder.exec().getResultList();
+    }
+
+    public SysPermission findById(Long id) {
+        SysPermission data = SysPermission.findById(id);
+        if (data == null) {
+            throw new NotFoundException();
+        }
+        return data;
+    }
+
+    public void save(SysPermission sysPermission) {
+        sysPermission.persistAndFlush();
+    }
+
+
+    public void update(Long id, SysPermission sysPermission) {
+        SysPermission flush = findById(id);
+        // change
+        flush.persistAndFlush();
+    }
+
+
+    public boolean delete(Long id) {
+        return SysPermission.deleteById(id);
+    }
 }

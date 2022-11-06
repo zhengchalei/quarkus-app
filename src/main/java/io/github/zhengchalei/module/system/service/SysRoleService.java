@@ -1,27 +1,78 @@
 package io.github.zhengchalei.module.system.service;
 
+import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysRole;
 import io.quarkus.panache.common.Page;
 
-import javax.validation.constraints.NotNull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-public interface SysRoleService {
+@Singleton
+@Transactional
+public class SysRoleService {
 
-    List<SysRole> findPage(@NotNull Page page, @NotNull SysRole sysRole);
+    @Inject
+    EntityManager entityManager;
 
-    long findCount(@NotNull Page page, @NotNull SysRole sysRole);
+    private QueryBuilder<SysRole> queryBuilder(SysRole sysRole) {
+        QueryBuilder<SysRole> queryBuilder = new QueryBuilder<>(entityManager, SysRole.class);
+        if (sysRole.getId() != null) {
+            Predicate predicate = queryBuilder.cb.equal(
+                queryBuilder.root.get("id"),
+                sysRole.getId()
+            );
+            queryBuilder.where(predicate);
+        }
+        return queryBuilder;
+    }
 
-    List<SysRole> findAll(@NotNull SysRole sysRole);
 
-    SysRole findById(@NotNull Long id);
+    public List<SysRole> findPage(Page page, SysRole sysRole) {
+        return SysRole.findAll().page(page).list();
+    }
 
-    void save(@NotNull SysRole sysRole);
 
-    void update(@NotNull Long id, @NotNull SysRole sysRole);
+    public long findCount(Page page, SysRole sysRole) {
+        return SysRole.findAll().page(page).count();
+    }
 
-    boolean delete(@NotNull Long id);
+
+    public List<SysRole> findAll(SysRole sysRole) {
+        QueryBuilder<SysRole> queryBuilder = this.queryBuilder(sysRole);
+        return queryBuilder.exec().getResultList();
+    }
+
+
+    public SysRole findById(Long id) {
+        SysRole data = SysRole.findById(id);
+        if (data == null) {
+            throw new NotFoundException();
+        }
+        return data;
+    }
+
+
+    public void save(SysRole sysRole) {
+        sysRole.persistAndFlush();
+    }
+
+
+    public void update(Long id, SysRole sysRole) {
+        SysRole flush = findById(id);
+        // change
+        flush.persistAndFlush();
+    }
+
+
+    public boolean delete(Long id) {
+        return SysRole.deleteById(id);
+    }
 }

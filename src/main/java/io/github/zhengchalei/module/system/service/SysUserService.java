@@ -1,29 +1,68 @@
 package io.github.zhengchalei.module.system.service;
 
-import io.github.zhengchalei.module.system.dto.SysUserDto;
-import io.quarkus.panache.common.Page;
+import com.speedment.jpastreamer.application.JPAStreamer;
+import io.github.zhengchalei.common.model.Page;
+import io.github.zhengchalei.module.system.domain.SysUser;
+import io.github.zhengchalei.module.system.domain.SysUser$;
 
-import javax.validation.constraints.NotNull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
-public interface SysUserService {
+@Singleton
+@Transactional
+public class SysUserService {
 
-    List<SysUserDto> findPage(@NotNull Page page, @NotNull SysUserDto sysUserDto);
+    @Inject
+    JPAStreamer jpaStreamer;
 
-    long findCount(@NotNull Page page, @NotNull SysUserDto sysUserDto);
+    public long findCount(SysUser sysUser) {
+        return SysUser.count();
+    }
 
-    long findCount();
+    public List<SysUser> findList(Page page, SysUser sysUser) {
+        Stream<SysUser> stream = jpaStreamer
+            .stream(SysUser.class)
+            .sorted(SysUser$.username.reversed())
+            .limit(page.limit())
+            .skip(page.skip());
+        if (sysUser.id != null) {
+            stream = stream.filter(w -> w.id.equals(sysUser.id));
+        }
+        return stream.toList();
+    }
 
-    List<SysUserDto> findList(@NotNull SysUserDto sysUserDto);
 
-    SysUserDto findById(@NotNull Long id);
+    public SysUser findById(Long id) {
+        SysUser data = SysUser.findById(id);
+        if (data == null) {
+            throw new NotFoundException();
+        }
+        return data;
+    }
 
-    void save(@NotNull SysUserDto sysUserDto);
 
-    void update(@NotNull Long id, @NotNull SysUserDto sysUserDto);
+    public void save(SysUser sysUser) {
+        sysUser.persistAndFlush();
+    }
 
-    boolean delete(@NotNull Long id);
+
+    public void update(SysUser sysUser) {
+        SysUser flush = SysUser.findById(sysUser.id);
+        flush.username = sysUser.username;
+        flush.email = sysUser.email;
+        // change
+        flush.isPersistent();
+    }
+
+
+    public boolean delete(Long id) {
+        return SysUser.deleteById(id);
+    }
 }

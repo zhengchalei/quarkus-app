@@ -1,8 +1,9 @@
 package io.github.zhengchalei.module.system.domain;
 
-import io.github.zhengchalei.common.model.TreeEntity;
+import io.github.zhengchalei.common.model.BaseEntity;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -11,9 +12,9 @@ import java.util.Objects;
 @Schema(title = "系统权限")
 @Entity(name = "sys_permission")
 @Table(name = "sys_permission", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_sys_permission_name_code", columnNames = {"name", "code"})
+    @UniqueConstraint(name = "uc_sys_permission_name_code", columnNames = {"name", "code"})
 })
-public class SysPermission extends TreeEntity<SysPermission> {
+public class SysPermission extends BaseEntity {
 
     @Schema(title = "权限名称", defaultValue = "系统管理")
     public String name;
@@ -23,6 +24,13 @@ public class SysPermission extends TreeEntity<SysPermission> {
 
     @Schema(title = "权限描述", defaultValue = "系统管理权限")
     public String description;
+
+    @Schema(title = "父级id")
+    @Column(name = "parent_id")
+    public Long parentId;
+
+    @Schema(title = "排序", defaultValue = "0", example = "0")
+    public Integer sort = 0;
 
     @Override
     public boolean equals(Object o) {

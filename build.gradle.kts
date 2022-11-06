@@ -47,8 +47,6 @@ dependencies {
     // other
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
 
-    implementation("org.mapstruct:mapstruct:1.5.3.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
     implementation("com.speedment.jpastreamer:jpastreamer-core:1.1.0")
     kapt("com.speedment.jpastreamer:fieldgenerator-standard:1.1.0")
 

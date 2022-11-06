@@ -14,7 +14,7 @@ import java.util.Set;
 @Schema(title = "系统角色")
 @Entity(name = "sys_role")
 @Table(name = "sys_role", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_sys_role_name_code", columnNames = {"name", "code"})
+    @UniqueConstraint(name = "uc_sys_role_name_code", columnNames = {"name", "code"})
 })
 public class SysRole extends BaseEntity {
 
@@ -34,8 +34,8 @@ public class SysRole extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "sys_role_permission",
-            joinColumns = @JoinColumn(name = "sys_role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "sys_permission_id", referencedColumnName = "id")
+        joinColumns = @JoinColumn(name = "sys_role_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "sys_permission_id", referencedColumnName = "id")
     )
     public Set<SysPermission> permissions = new LinkedHashSet<>();
 

@@ -39,20 +39,20 @@ public class SysAuthResource {
     @POST()
     public Map<String, String> login(@Valid LoginDTO loginDto) {
         SysUser user = SysUser.<SysUser>find(
-                        "username = :username",
-                        Parameters.with("username", loginDto.username)
-                ).firstResultOptional()
-                .orElseThrow(() -> new RuntimeException("用户名不存在"));
+                "username = :username",
+                Parameters.with("username", loginDto.username)
+            ).firstResultOptional()
+            .orElseThrow(() -> new RuntimeException("用户名不存在"));
         if (!user.password.equals(loginDto.password)) {
             throw new RuntimeException("密码不正确!");
         }
         // 这里会拿到配置文件的 key 生成 jwt
         String token = Jwt.issuer(issuer)
-                .upn(user.email)
-                .groups(Sets.of("User", "ADMIN"))
-                .claim(Claims.birthdate, "1998-10-23")
-                .expiresIn(Duration.ofHours(6))
-                .sign();
+            .upn(user.email)
+            .groups(Sets.of("User", "ADMIN"))
+            .claim(Claims.birthdate, "1998-10-23")
+            .expiresIn(Duration.ofHours(6))
+            .sign();
         redisClient.set(List.of(AuthUtil.AUTH_KEY + user.getId(), token));
         return Map.of("token", token);
     }

@@ -1,16 +1,18 @@
 package io.github.zhengchalei.module.system.service;
 
-import com.speedment.jpastreamer.application.JPAStreamer;
+import com.querydsl.jpa.impl.JPAQuery;
 import io.github.zhengchalei.common.model.Page;
+import io.github.zhengchalei.module.system.domain.QSysPermission;
+import io.github.zhengchalei.module.system.domain.QSysRole;
+import io.github.zhengchalei.module.system.domain.QSysUser;
 import io.github.zhengchalei.module.system.domain.SysUser;
-import io.github.zhengchalei.module.system.domain.SysUser$;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
@@ -20,22 +22,35 @@ import java.util.stream.Stream;
 public class SysUserService {
 
     @Inject
-    JPAStreamer jpaStreamer;
+    EntityManager entityManager;
 
     public long findCount(SysUser sysUser) {
-        return SysUser.count();
+        QSysUser qSysUser = QSysUser.sysUser;
+        JPAQuery<Long> query = new JPAQuery<SysUser>(entityManager)
+            .select(qSysUser.count())
+            .join(QSysRole.sysRole)
+            .join(QSysPermission.sysPermission)
+            .from(qSysUser);
+        if (sysUser.id != null) {
+            query = query.where(qSysUser.id.eq(sysUser.id));
+        }
+        if (sysUser.username != null) {
+            query = query.where(qSysUser.username.eq(sysUser.username));
+        }
+        return query.fetchFirst();
     }
 
     public List<SysUser> findList(Page page, SysUser sysUser) {
-        Stream<SysUser> stream = jpaStreamer
-            .stream(SysUser.class)
-            .sorted(SysUser$.username.reversed())
-            .limit(page.limit())
-            .skip(page.skip());
+        QSysUser qSysUser = QSysUser.sysUser;
+        JPAQuery<SysUser> query = new JPAQuery<SysUser>(entityManager)
+            .from(qSysUser);
         if (sysUser.id != null) {
-            stream = stream.filter(w -> w.id.equals(sysUser.id));
+            query = query.where(qSysUser.id.eq(sysUser.id));
         }
-        return stream.toList();
+        if (sysUser.username != null) {
+            query = query.where(qSysUser.username.eq(sysUser.username));
+        }
+        return page.fetch(query);
     }
 
 

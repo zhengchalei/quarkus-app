@@ -1,8 +1,9 @@
 package io.github.zhengchalei.module.system.service;
 
 import io.github.zhengchalei.common.jpa.QueryBuilder;
+import io.github.zhengchalei.common.model.Page;
+import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.github.zhengchalei.module.system.domain.SysRole;
-import io.quarkus.panache.common.Page;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -34,14 +37,12 @@ public class SysRoleService {
         return queryBuilder;
     }
 
-
-    public List<SysRole> findPage(Page page, SysRole sysRole) {
-        return SysRole.findAll().page(page).list();
+    public List<SysRole> findList(Page page, SysRole sysRole) {
+        return null;
     }
 
-
-    public long findCount(Page page, SysRole sysRole) {
-        return SysRole.findAll().page(page).count();
+    public long findCount(SysRole sysRole) {
+        return SysRole.findAll().count();
     }
 
 
@@ -65,9 +66,18 @@ public class SysRoleService {
     }
 
 
-    public void update(Long id, SysRole sysRole) {
-        SysRole flush = findById(id);
-        // change
+    public void update(SysRole sysRole) {
+        SysRole flush = findById(sysRole.id);
+        flush.name = sysRole.name;
+        flush.code = sysRole.code;
+        flush.description = sysRole.description;
+        List<Long> permissionIds = sysRole.permissions.stream().map(SysPermission::getId).toList();
+        if (permissionIds.isEmpty()) {
+            Collection<SysPermission> permissions = SysPermission
+                .<SysPermission>find("id in (?)", permissionIds)
+                .list();
+            flush.permissions = new HashSet<>(permissions);
+        }
         flush.persistAndFlush();
     }
 
@@ -75,4 +85,5 @@ public class SysRoleService {
     public boolean delete(Long id) {
         return SysRole.deleteById(id);
     }
+
 }

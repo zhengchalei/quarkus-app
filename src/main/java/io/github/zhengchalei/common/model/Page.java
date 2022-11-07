@@ -1,9 +1,12 @@
 package io.github.zhengchalei.common.model;
 
+import com.querydsl.jpa.impl.JPAQuery;
+import io.github.zhengchalei.module.system.domain.SysUser;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import javax.ws.rs.QueryParam;
+import java.util.List;
 
 /**
  * 分页
@@ -125,5 +128,9 @@ public class Page {
 
     public long limit() {
         return this.size;
+    }
+
+    public <T> List<T> fetch(JPAQuery<T> query) {
+        return query.offset(skip()).limit(limit()).fetch();
     }
 }

@@ -47,8 +47,8 @@ dependencies {
     // other
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
 
-    implementation("com.speedment.jpastreamer:jpastreamer-core:1.1.0")
-    kapt("com.speedment.jpastreamer:fieldgenerator-standard:1.1.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
 
     implementation("io.quarkus:quarkus-cache")
     implementation("io.quarkus:quarkus-vertx")

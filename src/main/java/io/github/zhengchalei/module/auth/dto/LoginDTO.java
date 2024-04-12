@@ -2,7 +2,7 @@ package io.github.zhengchalei.module.auth.dto;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Schema(title = "登录DTO", name = "LoginDto")
 public class LoginDTO {

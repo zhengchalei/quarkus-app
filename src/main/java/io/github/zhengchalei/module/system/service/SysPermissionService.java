@@ -4,12 +4,12 @@ import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.quarkus.panache.common.Page;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.Predicate;
-import javax.transaction.Transactional;
-import javax.ws.rs.NotFoundException;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import java.util.List;
 
 /**

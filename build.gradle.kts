@@ -1,14 +1,14 @@
 plugins {
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.allopen") version "1.7.20"
-    kotlin("kapt") version "1.7.20"
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.allopen") version "1.9.23"
+    kotlin("kapt") version "1.9.23"
     id("io.quarkus")
 }
 
 repositories {
-//    maven {
-//        url = uri("https://maven.aliyun.com/repository/public/")
-//    }
+    maven {
+        url = uri("https://maven.aliyun.com/repository/public/")
+    }
     mavenCentral()
     mavenLocal()
 }
@@ -47,8 +47,8 @@ dependencies {
     // other
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging")
 
-    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
-    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.1.0:jakarta")
+    implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
 
     implementation("io.quarkus:quarkus-cache")
     implementation("io.quarkus:quarkus-vertx")
@@ -63,8 +63,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 
@@ -73,8 +73,9 @@ tasks.withType<Test> {
 }
 
 allOpen {
-    annotation("javax.ws.rs.Path")
-    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("jakarta.ws.rs.Path")
+    annotation("jakarta.enterprise.context.ApplicationScoped")
+    annotation("jakarta.persistence.Entity")
     annotation("io.quarkus.test.junit.QuarkusTest")
 }
 
@@ -85,7 +86,7 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_21.toString()
     kotlinOptions.javaParameters = true
 }
 

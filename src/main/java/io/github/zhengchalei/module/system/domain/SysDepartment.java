@@ -1,10 +1,11 @@
 package io.github.zhengchalei.module.system.domain;
 
 import io.github.zhengchalei.common.model.BaseEntity;
+import jakarta.persistence.Cacheable;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import javax.persistence.*;
-import javax.ws.rs.QueryParam;
+import jakarta.persistence.*;
+import jakarta.ws.rs.QueryParam;
 import java.util.List;
 import java.util.Objects;
 

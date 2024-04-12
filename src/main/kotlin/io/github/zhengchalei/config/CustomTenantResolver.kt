@@ -3,7 +3,7 @@ package io.github.zhengchalei.config
 import io.quarkus.hibernate.orm.PersistenceUnitExtension
 import io.quarkus.hibernate.orm.runtime.tenant.TenantResolver
 import io.vertx.ext.web.RoutingContext
-import javax.enterprise.context.RequestScoped
+import jakarta.enterprise.context.RequestScoped
 
 @PersistenceUnitExtension
 @RequestScoped

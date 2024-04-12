@@ -2,7 +2,7 @@ package io.github.zhengchalei.module.system.dto;
 
 import io.github.zhengchalei.module.system.domain.SysUser;
 
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;

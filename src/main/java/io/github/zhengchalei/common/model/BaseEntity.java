@@ -1,11 +1,11 @@
 package io.github.zhengchalei.common.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.*;
+import jakarta.ws.rs.QueryParam;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
-import javax.ws.rs.QueryParam;
 import java.util.Objects;
 
 /**

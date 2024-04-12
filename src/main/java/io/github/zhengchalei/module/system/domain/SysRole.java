@@ -5,8 +5,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
-import javax.ws.rs.QueryParam;
+import jakarta.persistence.*;
+import jakarta.ws.rs.QueryParam;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;

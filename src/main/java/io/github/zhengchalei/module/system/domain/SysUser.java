@@ -30,6 +30,7 @@ public class SysUser extends BaseEntity {
     @Email
     @Schema(title = "用户邮箱", example = "stone981023@gmail.com")
     public String email;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(title = "用户密码", example = "123456")
     public String password;
@@ -38,7 +39,7 @@ public class SysUser extends BaseEntity {
     @Schema(title = "用户状态", example = "1")
     public UserStatus status;
 
-    @Schema(title = "用户描述", example = "123456")
+    @Schema(title = "用户部门", example = "123456")
     @ManyToOne
     @JoinColumn(name = "department_id")
     public SysDepartment department;

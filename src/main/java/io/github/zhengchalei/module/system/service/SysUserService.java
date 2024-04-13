@@ -5,12 +5,15 @@ import io.github.zhengchalei.common.RPage;
 import io.github.zhengchalei.common.exception.ServiceException;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.*;
+import io.github.zhengchalei.module.system.dto.SysUserSaveDTO;
+import io.github.zhengchalei.module.system.dto.SysUserUpdateDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 /**
@@ -60,37 +63,48 @@ public class SysUserService {
     }
 
 
-    public void saveSysUser(SysUser sysUser) {
+    public SysUser saveSysUser(SysUserSaveDTO data) {
         // 检查用户名 是否重复
-        if (SysUser.count("username = ?1", sysUser.username) > 0) {
+        if (SysUser.count("username = ?1", data.username) > 0) {
             throw new ServiceException("用户名已存在");
         }
         // 检查邮箱是否重复
-        if (SysUser.count("email = ?1", sysUser.email) > 0) {
+        if (SysUser.count("email = ?1", data.email) > 0) {
             throw new ServiceException("邮箱已存在");
         }
+        SysUser sysUser = new SysUser();
+        sysUser.username = data.username;
+        sysUser.email = data.email;
+        sysUser.status = UserStatus.ACTIVE;
+        sysUser.password = "123456";
         sysUser.persistAndFlush();
+        return sysUser;
     }
 
 
-    public void updateSysUserById(SysUser sysUser) {
+    public SysUser updateSysUserById(SysUserUpdateDTO data) {
         // 检查要修改的用户名是否存在, 判断是否为修改和之前的用户名是否一致
         Optional.<SysUser>of(SysUser.find("username = ?1").firstResult()).ifPresent(user -> {
-            if (!user.id.equals(sysUser.id)) {
+            if (!user.id.equals(data.id)) {
                 throw new ServiceException("用户名已存在");
             }
         });
         // 邮箱
         Optional.<SysUser>of(SysUser.find("email = ?1").firstResult()).ifPresent(user -> {
-            if (!user.id.equals(sysUser.id)) {
+            if (!user.id.equals(data.id)) {
                 throw new ServiceException("邮箱已存在");
             }
         });
-        SysUser flush = SysUser.findById(sysUser.id);
-        flush.username = sysUser.username;
-        flush.email = sysUser.email;
+        SysUser flush = SysUser.findById(data.id);
+        flush.username = data.username;
+        flush.email = data.email;
+
+        // 修改角色
+        flush.roles = new HashSet<>(SysRole.<SysRole>find("id in (?)", data.roleIds).list());
+
         // change
         flush.isPersistent();
+        return flush;
     }
 
 

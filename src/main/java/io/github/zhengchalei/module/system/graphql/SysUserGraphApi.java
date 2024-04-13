@@ -3,13 +3,14 @@ package io.github.zhengchalei.module.system.graphql;
 import io.github.zhengchalei.common.RPage;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.SysUser;
+import io.github.zhengchalei.module.system.dto.SysUserSaveDTO;
+import io.github.zhengchalei.module.system.dto.SysUserUpdateDTO;
 import io.github.zhengchalei.module.system.service.SysUserService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.graphql.Description;
-import org.eclipse.microprofile.graphql.GraphQLApi;
-import org.eclipse.microprofile.graphql.Mutation;
-import org.eclipse.microprofile.graphql.Query;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.eclipse.microprofile.graphql.*;
 
 /**
  * SysUserGraphApi
@@ -32,39 +33,39 @@ public class SysUserGraphApi {
 
     @Query
     @Description("根据 id 查询系统用户")
-    public SysUser findSysUserById(Long id) {
+    public SysUser findSysUserById(@Valid @NotNull Long id) {
         return this.sysUserService.findSysUserById(id);
     }
 
     @Mutation
     @Description("添加系统用户")
-    public SysUser saveSysUser(SysUser sysUser) {
-        this.sysUserService.saveSysUser(sysUser);
+    public SysUser saveSysUser(@Valid @Source SysUserSaveDTO data) {
+        SysUser sysUser = this.sysUserService.saveSysUser(data);
         return this.sysUserService.findSysUserById(sysUser.id);
     }
 
     @Mutation
     @Description("根据 id 修改系统用户")
-    public SysUser updateSysUserById(SysUser sysUser) {
-        this.sysUserService.updateSysUserById(sysUser);
+    public SysUser updateSysUserById(@Valid @Source SysUserUpdateDTO data) {
+        SysUser sysUser = this.sysUserService.updateSysUserById(data);
         return this.sysUserService.findSysUserById(sysUser.id);
     }
 
     @Mutation
     @Description("根据 id 删除系统用户")
-    public boolean deleteSysUserById(Long id) {
+    public boolean deleteSysUserById(@Valid @NotNull Long id) {
         return this.sysUserService.deleteSysUserById(id);
     }
 
     @Mutation
     @Description("根据 id 激活系统用户")
-    public boolean activeSysUserById(Long id) {
+    public boolean activeSysUserById(@Valid @NotNull Long id) {
         return this.sysUserService.activeSysUserById(id);
     }
 
     @Mutation
     @Description("根据 id 禁用系统用户")
-    public boolean disableSysUserById(Long id) {
+    public boolean disableSysUserById(@Valid @NotNull Long id) {
         return this.sysUserService.disableSysUserById(id);
     }
 

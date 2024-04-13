@@ -11,6 +11,7 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,10 +35,10 @@ public class SysRoleService {
                 .from(qSysRole)
                 .leftJoin(qSysRole.permissions, QSysPermission.sysPermission).fetchJoin();
 
-        if (StringUtil.isNullOrEmpty(params.code)) {
+        if (StringUtils.isNotBlank(params.code)) {
             query = query.where(qSysRole.code.eq(params.code));
         }
-        if (StringUtil.isNullOrEmpty(params.name)) {
+        if (StringUtils.isNotBlank(params.name)) {
             query = query.where(qSysRole.name.eq(params.name));
         }
 

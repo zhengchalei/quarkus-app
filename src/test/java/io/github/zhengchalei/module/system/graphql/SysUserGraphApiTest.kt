@@ -2,11 +2,13 @@ package io.github.zhengchalei.module.system.graphql
 
 import io.restassured.RestAssured
 import org.hamcrest.Matchers
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import java.util.*
 
 internal class SysUserGraphApiTest {
+
+    @Order(1)
     @Test
     fun findSysUserPage() {
         val query = """
@@ -38,6 +40,7 @@ internal class SysUserGraphApiTest {
             .body("data.findSysUserPage.data[0].username", Matchers.notNullValue())
     }
 
+    @Order(2)
     @Test
     fun findSysUserById() {
         // 根据id查询
@@ -64,6 +67,7 @@ internal class SysUserGraphApiTest {
         response.body("data.findSysUserById.username", Matchers.notNullValue())
     }
 
+    @Order(3)
     @Test
     fun saveSysUser() {
         val username = UUID.randomUUID().toString()
@@ -94,29 +98,114 @@ internal class SysUserGraphApiTest {
         response.body("data.saveSysUser.id", Matchers.greaterThan(0))
     }
 
+    @Order(4)
     @Test
     fun updateSysUserById() {
+        val username = "admin"
+        val email = "admin@gmail.com"
+        val query = """
+            {
+                "query": "mutation {
+                    updateSysUserById(id: 1, data: {
+                        username: \"$username\",
+                        email: \"$email\",
+                        departmentId: 1,
+                        roles: [1]
+                    }) {
+                        id
+                    }
+                }",
+                "variables": {}
+            }
+        """.trimIndent()
+        val response = RestAssured
+            .given()
+            .`when`()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql")
+            .then()
+            .statusCode(200)
+            .log().all()
+        response.body("data.updateSysUserById.id", Matchers.greaterThan(0))
     }
 
-    @Test
-    fun deleteSysUserById() {
-    }
-
+    @Order(5)
     @Test
     fun activeSysUserById() {
+        val query = """
+            {
+                "query": "mutation {
+                    activeSysUserById(id: 1) {
+                        id
+                    }
+                }",
+                "variables": {}
+            }
+        """.trimIndent()
+        val response = RestAssured
+            .given()
+            .`when`()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql")
+            .then()
+            .statusCode(200)
+            .log().all()
+        // 判断返回值是 true
+        response.body("data.activeSysUserById", Matchers.equalTo(true))
     }
 
+    @Order(6)
     @Test
     fun disableSysUserById() {
+        val query = """
+            {
+                "query": "mutation {
+                    disableSysUserById(id: 1) {
+                        id
+                    }
+                }",
+                "variables": {}
+            }
+        """.trimIndent()
+        val response = RestAssured
+            .given()
+            .`when`()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql")
+            .then()
+            .statusCode(200)
+            .log().all()
+        // 判断返回值是 true
+        response.body("data.disableSysUserById", Matchers.equalTo(true))
     }
 
-    companion object {
-        @JvmStatic
-        @BeforeAll
-        fun setup() {
-            RestAssured.baseURI = "http://localhost:8080"
-            RestAssured.port = 8080
-            RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
-        }
+    @Order(7)
+    @Test
+    fun deleteSysUserById() {
+        val query = """
+            {
+                "query": "mutation {
+                    deleteSysUserById(id: 1) {
+                        id
+                    }
+                }",
+                "variables": {}
+            }
+        """.trimIndent()
+        val response = RestAssured
+            .given()
+            .`when`()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql")
+            .then()
+            .statusCode(200)
+            .log().all()
+        // 判断返回值是 true
+        response.body("data.deleteSysUserById", Matchers.equalTo(true))
     }
+
 }

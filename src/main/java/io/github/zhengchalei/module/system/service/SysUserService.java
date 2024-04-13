@@ -12,6 +12,7 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -32,10 +33,7 @@ public class SysUserService {
                 .from(qSysUser)
                 .leftJoin(qSysUser.roles, QSysRole.sysRole).fetchJoin()
                 .leftJoin(QSysRole.sysRole.permissions, QSysPermission.sysPermission).fetchJoin();
-        if (params.id != null) {
-            query = query.where(qSysUser.id.eq(params.id));
-        }
-        if (params.username != null) {
+        if (StringUtils.isNotBlank(params.username)) {
             query = query.where(qSysUser.username.eq(params.username));
         }
         RPage<SysUser> res = new RPage<>();
@@ -93,13 +91,13 @@ public class SysUserService {
 
     public SysUser updateSysUserById(SysUserUpdateDTO data) {
         // 检查要修改的用户名是否存在, 判断是否为修改和之前的用户名是否一致
-        Optional.<SysUser>of(SysUser.find("username = ?1").firstResult()).ifPresent(user -> {
+        Optional.<SysUser>of(SysUser.find("username = ?1", data.username).firstResult()).ifPresent(user -> {
             if (!user.id.equals(data.id)) {
                 throw new ServiceException("用户名已存在");
             }
         });
         // 邮箱
-        Optional.<SysUser>of(SysUser.find("email = ?1").firstResult()).ifPresent(user -> {
+        Optional.<SysUser>of(SysUser.find("email = ?1", data.email).firstResult()).ifPresent(user -> {
             if (!user.id.equals(data.id)) {
                 throw new ServiceException("邮箱已存在");
             }
@@ -108,9 +106,7 @@ public class SysUserService {
         flush.username = data.username;
         flush.email = data.email;
 
-        // 修改角色
         flush.roles = new HashSet<>(SysRole.<SysRole>find("id in (?)", data.roleIds).list());
-
         // change
         flush.isPersistent();
         return flush;

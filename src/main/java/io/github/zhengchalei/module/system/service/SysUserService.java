@@ -2,6 +2,7 @@ package io.github.zhengchalei.module.system.service;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import io.github.zhengchalei.common.RPage;
+import io.github.zhengchalei.common.exception.ServiceException;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.*;
 import jakarta.inject.Inject;
@@ -62,11 +63,11 @@ public class SysUserService {
     public void saveSysUser(SysUser sysUser) {
         // 检查用户名 是否重复
         if (SysUser.count("username = ?1", sysUser.username) > 0) {
-            throw new IllegalArgumentException("用户名已存在");
+            throw new ServiceException("用户名已存在");
         }
         // 检查邮箱是否重复
         if (SysUser.count("email = ?1", sysUser.email) > 0) {
-            throw new IllegalArgumentException("邮箱已存在");
+            throw new ServiceException("邮箱已存在");
         }
         sysUser.persistAndFlush();
     }
@@ -76,13 +77,13 @@ public class SysUserService {
         // 检查要修改的用户名是否存在, 判断是否为修改和之前的用户名是否一致
         Optional.<SysUser>of(SysUser.find("username = ?1").firstResult()).ifPresent(user -> {
             if (!user.id.equals(sysUser.id)) {
-                throw new IllegalArgumentException("用户名已存在");
+                throw new ServiceException("用户名已存在");
             }
         });
         // 邮箱
         Optional.<SysUser>of(SysUser.find("email = ?1").firstResult()).ifPresent(user -> {
             if (!user.id.equals(sysUser.id)) {
-                throw new IllegalArgumentException("邮箱已存在");
+                throw new ServiceException("邮箱已存在");
             }
         });
         SysUser flush = SysUser.findById(sysUser.id);

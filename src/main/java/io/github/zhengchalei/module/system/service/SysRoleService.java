@@ -2,6 +2,7 @@ package io.github.zhengchalei.module.system.service;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import io.github.zhengchalei.common.RPage;
+import io.github.zhengchalei.common.exception.ServiceException;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.*;
 import io.quarkus.runtime.util.StringUtil;
@@ -59,11 +60,11 @@ public class SysRoleService {
     public void saveSysRole(SysRole sysRole) {
         // 判断角色名是否重复
         if (SysRole.count("name = ?1", sysRole.name) > 0) {
-            throw new IllegalArgumentException("角色名重复");
+            throw new ServiceException("角色名重复");
         }
         // 判断 code
         if (SysRole.count("code = ?1", sysRole.code) > 0) {
-            throw new IllegalArgumentException("角色编码重复");
+            throw new ServiceException("角色编码重复");
         }
         sysRole.persistAndFlush();
     }
@@ -73,13 +74,13 @@ public class SysRoleService {
         // 判断角色名是否重复
         Optional.<SysRole>of(SysRole.find("name = ?1", sysRole.name).firstResult()).ifPresent(data -> {
             if (!data.id.equals(sysRole.id)) {
-                throw new IllegalArgumentException("角色名重复");
+                throw new ServiceException("角色名重复");
             }
         });
         // 判断 code
         Optional.<SysRole>of(SysRole.find("code = ?1", sysRole.code).firstResult()).ifPresent(data -> {
             if (!data.id.equals(sysRole.id)) {
-                throw new IllegalArgumentException("角色编码重复");
+                throw new ServiceException("角色编码重复");
             }
         });
 
@@ -107,7 +108,7 @@ public class SysRoleService {
                 .where(qSysRole.id.eq(id))
                 .fetchFirst();
         if (userCount == null || userCount > 0) {
-            throw new IllegalArgumentException("角色已经关联用户, 不能删除");
+            throw new ServiceException("角色已经关联用户, 不能删除");
         }
         return SysRole.deleteById(id);
     }

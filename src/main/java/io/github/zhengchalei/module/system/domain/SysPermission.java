@@ -27,9 +27,6 @@ public class SysPermission extends BaseEntity {
     @Column(name = "parent_id")
     public Long parentId;
 
-    @Schema(title = "排序", defaultValue = "0", example = "0")
-    public Integer sort = 0;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

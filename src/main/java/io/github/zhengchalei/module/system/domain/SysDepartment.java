@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import jakarta.ws.rs.QueryParam;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Cacheable
 @Schema(title = "系统部门")
@@ -30,11 +32,15 @@ public class SysDepartment extends BaseEntity {
     @Column(name = "parent_id")
     public Long parentId;
 
-    @Schema(title = "排序", defaultValue = "0", example = "0")
-    public Integer sort = 0;
+    @OneToMany(mappedBy = "department", orphanRemoval = true)
+    private Set<SysUser> users = new LinkedHashSet<>();
 
     public static List<SysDepartment> findRoots() {
         return SysDepartment.find("parentId is null").list();
+    }
+
+    public static List<SysDepartment> findChildren(Long parentId) {
+        return SysDepartment.find("parentId = ?", parentId).list();
     }
 
     @Override

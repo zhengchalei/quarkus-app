@@ -18,7 +18,10 @@ import java.util.Set;
         hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 @Schema(title = "系统用户")
 @Entity
-@Table(name = "sys_user")
+@Table(name = "sys_user", indexes = {
+        @Index(name = "idx_sys_user_username", columnList = "username"),
+        @Index(name = "idx_sys_user_email", columnList = "email")
+})
 public class SysUser extends BaseEntity {
 
     @Schema(title = "用户名", example = "super_admin")
@@ -30,6 +33,10 @@ public class SysUser extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(title = "用户密码", example = "123456")
     public String password;
+
+    @Enumerated(EnumType.STRING)
+    @Schema(title = "用户状态", example = "1")
+    public UserStatus status;
 
     @Schema(title = "用户描述", example = "123456")
     @ManyToOne

@@ -44,16 +44,29 @@ public class SysUserGraphApi {
     }
 
     @Mutation
-    @Description("修改系统用户")
+    @Description("根据 id 修改系统用户")
     public SysUser updateSysUserById(SysUser sysUser) {
         this.sysUserService.updateSysUserById(sysUser);
         return this.sysUserService.findSysUserById(sysUser.id);
     }
 
     @Mutation
-    @Description("删除系统用户")
-    public Boolean deleteSysUserById(Long id) {
+    @Description("根据 id 删除系统用户")
+    public boolean deleteSysUserById(Long id) {
         return this.sysUserService.deleteSysUserById(id);
     }
+
+    @Mutation
+    @Description("根据 id 激活系统用户")
+    public boolean activeSysUserById(Long id) {
+        return this.sysUserService.activeSysUserById(id);
+    }
+
+    @Mutation
+    @Description("根据 id 禁用系统用户")
+    public boolean disableSysUserById(Long id) {
+        return this.sysUserService.disableSysUserById(id);
+    }
+
 
 }

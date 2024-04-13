@@ -1,6 +1,12 @@
 package io.github.zhengchalei.common.exception;
 
-public class ServiceException extends RuntimeException {
+import graphql.ErrorClassification;
+import graphql.GraphQLError;
+import graphql.language.SourceLocation;
+
+import java.util.List;
+
+public class ServiceException extends RuntimeException implements GraphQLError {
 
     public ServiceException() {
         super();
@@ -12,5 +18,15 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(Throwable cause) {
         super(cause);
+    }
+
+    @Override
+    public List<SourceLocation> getLocations() {
+        return List.of();
+    }
+
+    @Override
+    public ErrorClassification getErrorType() {
+        return null;
     }
 }

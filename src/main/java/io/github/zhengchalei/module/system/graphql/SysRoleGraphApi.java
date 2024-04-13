@@ -1,15 +1,15 @@
 package io.github.zhengchalei.module.system.graphql;
 
+import io.github.zhengchalei.common.RPage;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.SysRole;
+import io.github.zhengchalei.module.system.domain.SysUser;
 import io.github.zhengchalei.module.system.service.SysRoleService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.graphql.Description;
-import org.eclipse.microprofile.graphql.GraphQLApi;
-import org.eclipse.microprofile.graphql.Mutation;
-import org.eclipse.microprofile.graphql.Query;
+import org.eclipse.microprofile.graphql.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,41 +26,35 @@ public class SysRoleGraphApi {
     SysRoleService sysRoleService;
 
     @Query
-    @Description("查询系统用户列表")
-    public List<SysRole> roleList(Page page, SysRole sysRole) {
-        return this.sysRoleService.findList(page, sysRole);
+    @Description("查询系统角色列表")
+    public RPage<SysRole> findSysRolePage(Page page, SysRole params) {
+        return this.sysRoleService.findSysRolePage(page, params);
     }
 
     @Query
-    @Description("根据 id 查询系统用户")
-    public SysRole roleById(Long id) {
-        return this.sysRoleService.findById(id);
-    }
-
-    @Query
-    @Description("查询系统用户数量")
-    public Long roleCount(SysRole sysRole) {
-        return this.sysRoleService.findCount(sysRole);
+    @Description("根据 id 查询系统角色")
+    public SysRole findSysRoleById(Long id) {
+        return this.sysRoleService.findSysRoleById(id);
     }
 
     @Mutation
-    @Description("添加系统用户")
-    public SysRole addRole(SysRole sysRole) {
-        this.sysRoleService.save(sysRole);
+    @Description("添加系统角色")
+    public SysRole saveSysRole(SysRole sysRole) {
+        this.sysRoleService.saveSysRole(sysRole);
         return this.sysRoleService.findById(sysRole.id);
     }
 
     @Mutation
-    @Description("修改系统用户")
-    public SysRole updateRole(SysRole sysRole) {
-        this.sysRoleService.update(sysRole);
+    @Description("根据 id 修改系统角色")
+    public SysRole updateSysRoleById(SysRole sysRole) {
+        this.sysRoleService.updateSysRoleById(sysRole);
         return this.sysRoleService.findById(sysRole.id);
     }
 
     @Mutation
-    @Description("删除系统用户")
-    public Boolean deleteRole(Long id) {
-        return this.sysRoleService.delete(id);
+    @Description("根据 id 删除系统角色")
+    public boolean deleteSysRoleById(Long id) {
+        return this.sysRoleService.deleteSysRoleById(id);
     }
 
 }

@@ -50,13 +50,6 @@ public class SysDepartmentService {
             );
             queryBuilder.where(predicate);
         }
-        if (sysDepartment.sort != null) {
-            Predicate predicate = queryBuilder.cb.equal(
-                    queryBuilder.root.get("sort"),
-                    sysDepartment.sort
-            );
-            queryBuilder.where(predicate);
-        }
         if (sysDepartment.parentId != null) {
             Predicate predicate = queryBuilder.cb.equal(
                     queryBuilder.root.get("parentId"),

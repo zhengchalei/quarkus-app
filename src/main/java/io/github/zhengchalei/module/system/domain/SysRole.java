@@ -1,5 +1,6 @@
 package io.github.zhengchalei.module.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.zhengchalei.common.model.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.ws.rs.QueryParam;
@@ -14,8 +15,9 @@ import java.util.Set;
 @Cacheable
 @Schema(title = "系统角色")
 @Entity(name = "sys_role")
-@Table(name = "sys_role", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_sys_role_name_code", columnNames = {"name", "code"})
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "uc_sys_role_name", columnNames = {"name"}),
+        @UniqueConstraint(name = "uc_sys_role_code", columnNames = {"code"})
 })
 public class SysRole extends BaseEntity {
 
@@ -39,6 +41,11 @@ public class SysRole extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "sys_permission_id", referencedColumnName = "id")
     )
     public Set<SysPermission> permissions = new LinkedHashSet<>();
+
+    @Schema(title = "用户")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<SysUser> users = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

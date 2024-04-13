@@ -1,14 +1,12 @@
 package io.github.zhengchalei.module.system.domain;
 
 import io.github.zhengchalei.common.model.BaseEntity;
+import jakarta.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import java.util.Objects;
 
+@Cacheable
 @Schema(title = "系统权限")
 @Entity(name = "sys_permission")
 @Table(name = "sys_permission", uniqueConstraints = {

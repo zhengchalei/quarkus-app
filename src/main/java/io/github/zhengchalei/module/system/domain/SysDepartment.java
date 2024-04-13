@@ -1,22 +1,21 @@
 package io.github.zhengchalei.module.system.domain;
 
 import io.github.zhengchalei.common.model.BaseEntity;
-import jakarta.persistence.Cacheable;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
 import jakarta.persistence.*;
 import jakarta.ws.rs.QueryParam;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import java.util.List;
 import java.util.Objects;
 
+@Cacheable
 @Schema(title = "系统部门")
 @Entity
 @Table(name = "sys_department", indexes = {
-    @Index(name = "idx_sys_department_name", columnList = "name")
+        @Index(name = "idx_sys_department_name", columnList = "name")
 }, uniqueConstraints = {
-    @UniqueConstraint(name = "uc_sys_department_name", columnNames = {"name"})
+        @UniqueConstraint(name = "uc_sys_department_name", columnNames = {"name"})
 })
-@Cacheable
 public class SysDepartment extends BaseEntity {
 
     @QueryParam("name")

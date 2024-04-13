@@ -2,15 +2,17 @@ package io.github.zhengchalei.module.system.service;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import io.github.zhengchalei.common.model.Page;
-import io.github.zhengchalei.module.system.domain.*;
-
+import io.github.zhengchalei.module.system.domain.QSysPermission;
+import io.github.zhengchalei.module.system.domain.QSysRole;
+import io.github.zhengchalei.module.system.domain.QSysUser;
+import io.github.zhengchalei.module.system.domain.SysUser;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
@@ -25,23 +27,24 @@ public class SysUserService {
     public long findCount(SysUser sysUser) {
         QSysUser qSysUser = QSysUser.sysUser;
         JPAQuery<Long> query = new JPAQuery<SysUser>(entityManager)
-            .select(qSysUser.count())
-            .join(QSysRole.sysRole)
-            .join(QSysPermission.sysPermission)
-            .from(qSysUser);
+                .select(qSysUser.count())
+                .from(qSysUser);
         if (sysUser.id != null) {
             query = query.where(qSysUser.id.eq(sysUser.id));
         }
         if (sysUser.username != null) {
             query = query.where(qSysUser.username.eq(sysUser.username));
         }
-        return query.fetchFirst();
+        return query.fetchCount();
     }
 
     public List<SysUser> findList(Page page, SysUser sysUser) {
         QSysUser qSysUser = QSysUser.sysUser;
         JPAQuery<SysUser> query = new JPAQuery<SysUser>(entityManager)
-            .from(qSysUser);
+                .select(qSysUser)
+                .from(qSysUser)
+                .leftJoin(qSysUser.roles, QSysRole.sysRole).fetchJoin()
+                .leftJoin(QSysRole.sysRole.permissions, QSysPermission.sysPermission).fetchJoin();
         if (sysUser.id != null) {
             query = query.where(qSysUser.id.eq(sysUser.id));
         }
@@ -53,7 +56,14 @@ public class SysUserService {
 
 
     public SysUser findById(Long id) {
-        SysUser data = SysUser.findById(id);
+        QSysUser qSysUser = QSysUser.sysUser;
+        SysUser data = new JPAQuery<>(entityManager)
+                .select(qSysUser)
+                .from(qSysUser)
+                .leftJoin(qSysUser.roles, QSysRole.sysRole).fetchJoin()
+                .leftJoin(QSysRole.sysRole.permissions, QSysPermission.sysPermission).fetchJoin()
+                .where(qSysUser.id.eq(id))
+                .fetchOne();
         if (data == null) {
             throw new NotFoundException();
         }

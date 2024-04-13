@@ -2,6 +2,7 @@ package io.github.zhengchalei.module.system.dto;
 
 import io.github.zhengchalei.module.system.domain.SysUser;
 
+import io.quarkus.hibernate.orm.panache.common.ProjectedFieldName;
 import jakarta.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -14,10 +15,8 @@ public class SysUserDto implements Serializable {
     public Long id;
     public Long version;
     public String username;
-    @Email
     public String email;
     public String password;
     public SysDepartmentDto department;
     public Set<SysRoleDto> roles = new LinkedHashSet<>();
-
 }

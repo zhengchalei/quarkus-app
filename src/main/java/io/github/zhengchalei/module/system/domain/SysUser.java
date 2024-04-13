@@ -2,16 +2,20 @@ package io.github.zhengchalei.module.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.zhengchalei.common.model.BaseEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Cacheable
+@NamedQuery(name = "SysUser.findAll",
+        query = "SELECT u FROM SysUser u ORDER BY u.id desc",
+        hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 @Schema(title = "系统用户")
 @Entity
 @Table(name = "sys_user")

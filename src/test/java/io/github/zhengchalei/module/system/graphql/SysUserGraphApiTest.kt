@@ -73,7 +73,8 @@ internal class SysUserGraphApiTest {
                 "query": "mutation {
                     saveSysUser(data: {
                         username: \"$username\",
-                        email: \"$email\"
+                        email: \"$email\",
+                        departmentId: 1,
                     }) {
                         id
                     }

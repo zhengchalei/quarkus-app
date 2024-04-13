@@ -1,94 +1,79 @@
-create table sys_department (
-                                id bigserial not null,
-                                version bigint,
-                                description varchar(255),
-                                name varchar(255),
-                                parent_id bigint,
-                                primary key (id)
+create table if not exists sys_department
+(
+    id          bigserial not null,
+    version     bigint,
+    description varchar(255),
+    name        varchar(255),
+    parent_id   bigint,
+    primary key (id)
 );
-create table sys_permission (
-                                id bigserial not null,
-                                version bigint,
-                                code varchar(255),
-                                description varchar(255),
-                                name varchar(255),
-                                parent_id bigint,
-                                primary key (id)
+create table if not exists sys_permission
+(
+    id          bigserial not null,
+    version     bigint,
+    code        varchar(255),
+    description varchar(255),
+    name        varchar(255),
+    parent_id   bigint,
+    primary key (id)
 );
-create table sys_role (
-                          id bigserial not null,
-                          version bigint,
-                          code varchar(255),
-                          description varchar(255),
-                          name varchar(255),
-                          primary key (id)
+create table if not exists sys_role
+(
+    id          bigserial not null,
+    version     bigint,
+    code        varchar(255),
+    description varchar(255),
+    name        varchar(255),
+    primary key (id)
 );
-create table sys_role_permission (
-                                     sys_role_id bigint not null,
-                                     sys_permission_id bigint not null,
-                                     primary key (sys_role_id, sys_permission_id)
+create table if not exists sys_role_permission
+(
+    sys_role_id       bigint not null,
+    sys_permission_id bigint not null,
+    primary key (sys_role_id, sys_permission_id)
 );
-create table sys_user (
-                          id bigserial not null,
-                          version bigint,
-                          email varchar(255),
-                          password varchar(255),
-                          status varchar(255) check (status in ('ACTIVE','LOCKED','DISABLED')),
-                          username varchar(255),
-                          department_id bigint,
-                          primary key (id)
+create table if not exists sys_user
+(
+    id            bigserial not null,
+    version       bigint,
+    email         varchar(255),
+    password      varchar(255),
+    status        varchar(255) check (status in ('ACTIVE', 'LOCKED', 'DISABLED')),
+    username      varchar(255),
+    department_id bigint,
+    primary key (id)
 );
-create table sys_user_role (
-                               sys_user_id bigint not null,
-                               sys_role_id bigint not null,
-                               primary key (sys_user_id, sys_role_id)
+create table if not exists sys_user_role
+(
+    sys_user_id bigint not null,
+    sys_role_id bigint not null,
+    primary key (sys_user_id, sys_role_id)
 );
-create index idx_sys_department_name
-    on sys_department (name);
-alter table if exists sys_department
-    drop constraint if exists uc_sys_department_name;
-alter table if exists sys_permission
-    add constraint uc_sys_permission_name_code unique (name, code);
-alter table if exists sys_role
-    drop constraint if exists uc_sys_role_name;
-alter table if exists sys_role
-    add constraint uc_sys_role_name unique (name);
-alter table if exists sys_role
-    drop constraint if exists uc_sys_role_code;
+create index if not exists idx_sys_department_name on sys_department (name);
+alter table if exists sys_department drop constraint if exists uc_sys_department_name;
+alter table if exists sys_permission add constraint uc_sys_permission_name_code unique (name, code);
+alter table if exists sys_role  drop constraint if exists uc_sys_role_name;
+alter table if exists sys_role  add constraint uc_sys_role_name unique (name);
+alter table if exists sys_role  drop constraint if exists uc_sys_role_code;
 
-alter table if exists sys_role
-    add constraint uc_sys_role_code unique (code);
+alter table if exists sys_role add constraint uc_sys_role_code unique (code);
+create index if not exists idx_sys_user_username on sys_user (username);
+create index if not exists idx_sys_user_email on sys_user (email);
 
-create index idx_sys_user_username
-    on sys_user (username);
+alter table if exists sys_role_permission  add constraint FKmnbc71b4040rgprkv4aeu0h5p
+    foreign key (sys_permission_id) references sys_permission;
 
-create index idx_sys_user_email
-    on sys_user (email);
+alter table if exists sys_role_permission add constraint FK31whauev046d3rg8ecubxa664
+    foreign key (sys_role_id) references sys_role;
 
-alter table if exists sys_role_permission
-    add constraint FKmnbc71b4040rgprkv4aeu0h5p
-        foreign key (sys_permission_id)
-            references sys_permission;
+alter table if exists sys_user add constraint FKgpcudn9q6i2xhnbngujxwgqij
+    foreign key (department_id) references sys_department;
 
-alter table if exists sys_role_permission
-    add constraint FK31whauev046d3rg8ecubxa664
-        foreign key (sys_role_id)
-            references sys_role;
+alter table if exists sys_user_role add constraint FK1ef5794xnbirtsnudta6p32on
+    foreign key (sys_role_id) references sys_role;
 
-alter table if exists sys_user
-    add constraint FKgpcudn9q6i2xhnbngujxwgqij
-        foreign key (department_id)
-            references sys_department;
-
-alter table if exists sys_user_role
-    add constraint FK1ef5794xnbirtsnudta6p32on
-        foreign key (sys_role_id)
-            references sys_role;
-
-alter table if exists sys_user_role
-    add constraint FKsbjvgfdwwy5rfbiag1bwh9x2b
-        foreign key (sys_user_id)
-            references sys_user;
+alter table if exists sys_user_role add constraint FKsbjvgfdwwy5rfbiag1bwh9x2b
+    foreign key (sys_user_id) references sys_user;
 
 INSERT INTO sys_department (parent_id, description, name, version)
 VALUES (null, '官网: https://zhengchalei.github.io', '总部', 1);

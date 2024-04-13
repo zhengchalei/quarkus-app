@@ -72,13 +72,22 @@ public class SysUserService {
         if (SysUser.count("email = ?1", data.email) > 0) {
             throw new ServiceException("邮箱已存在");
         }
-        SysUser sysUser = new SysUser();
-        sysUser.username = data.username;
-        sysUser.email = data.email;
-        sysUser.status = UserStatus.ACTIVE;
-        sysUser.password = "123456";
-        sysUser.persistAndFlush();
-        return sysUser;
+
+
+        SysUser flush = new SysUser();
+        if (data.departmentId != null) {
+            SysDepartment sysDepartment = SysDepartment.findById(data.departmentId);
+            if (sysDepartment == null) {
+                throw new ServiceException("部门不存在");
+            }
+            flush.department = sysDepartment;
+        }
+        flush.username = data.username;
+        flush.email = data.email;
+        flush.status = UserStatus.ACTIVE;
+        flush.password = "123456";
+        flush.persistAndFlush();
+        return flush;
     }
 
 

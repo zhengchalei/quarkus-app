@@ -10,7 +10,7 @@ import java.util.Objects;
 @Schema(title = "系统权限")
 @Entity(name = "sys_permission")
 @Table(name = "sys_permission", uniqueConstraints = {
-    @UniqueConstraint(name = "uc_sys_permission_name_code", columnNames = {"name", "code"})
+        @UniqueConstraint(name = "uc_sys_permission_name_code", columnNames = {"name", "code"})
 })
 public class SysPermission extends BaseEntity {
 

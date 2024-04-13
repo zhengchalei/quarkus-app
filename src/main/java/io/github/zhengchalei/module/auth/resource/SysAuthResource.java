@@ -7,9 +7,6 @@ import io.quarkus.arc.impl.Sets;
 import io.quarkus.panache.common.Parameters;
 import io.quarkus.redis.client.RedisClient;
 import io.smallrye.jwt.build.Jwt;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.jwt.Claims;
-
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -17,6 +14,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.jwt.Claims;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -39,20 +39,20 @@ public class SysAuthResource {
     @POST()
     public Map<String, String> login(@Valid LoginDTO loginDto) {
         SysUser user = SysUser.<SysUser>find(
-                "username = :username",
-                Parameters.with("username", loginDto.username)
-            ).firstResultOptional()
-            .orElseThrow(() -> new RuntimeException("用户名不存在"));
+                        "username = :username",
+                        Parameters.with("username", loginDto.username)
+                ).firstResultOptional()
+                .orElseThrow(() -> new RuntimeException("用户名不存在"));
         if (!user.password.equals(loginDto.password)) {
             throw new RuntimeException("密码不正确!");
         }
         // 这里会拿到配置文件的 key 生成 jwt
         String token = Jwt.issuer(issuer)
-            .upn(user.email)
-            .groups(Sets.of("User", "ADMIN"))
-            .claim(Claims.birthdate, "1998-10-23")
-            .expiresIn(Duration.ofHours(6))
-            .sign();
+                .upn(user.email)
+                .groups(Sets.of("User", "ADMIN"))
+                .claim(Claims.birthdate, "1998-10-23")
+                .expiresIn(Duration.ofHours(6))
+                .sign();
         redisClient.set(List.of(AuthUtil.AUTH_KEY + user.getId(), token));
         return Map.of("token", token);
     }

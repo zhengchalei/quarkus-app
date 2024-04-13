@@ -3,15 +3,15 @@ package io.github.zhengchalei.module.system.service;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysDepartment;
 import io.quarkus.panache.common.Page;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 /**
@@ -31,36 +31,36 @@ public class SysDepartmentService {
         QueryBuilder<SysDepartment> queryBuilder = new QueryBuilder<>(entityManager, SysDepartment.class);
         if (sysDepartment.getId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                queryBuilder.root.get("id"),
-                sysDepartment.getId()
+                    queryBuilder.root.get("id"),
+                    sysDepartment.getId()
             );
             queryBuilder.where(predicate);
         }
         if (sysDepartment.name != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                queryBuilder.root.get("name"),
-                sysDepartment.name
+                    queryBuilder.root.get("name"),
+                    sysDepartment.name
             );
             queryBuilder.where(predicate);
         }
         if (sysDepartment.description != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                queryBuilder.root.get("description"),
-                sysDepartment.description
+                    queryBuilder.root.get("description"),
+                    sysDepartment.description
             );
             queryBuilder.where(predicate);
         }
         if (sysDepartment.sort != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                queryBuilder.root.get("sort"),
-                sysDepartment.sort
+                    queryBuilder.root.get("sort"),
+                    sysDepartment.sort
             );
             queryBuilder.where(predicate);
         }
         if (sysDepartment.parentId != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                queryBuilder.root.get("parentId"),
-                sysDepartment.parentId
+                    queryBuilder.root.get("parentId"),
+                    sysDepartment.parentId
             );
             queryBuilder.where(predicate);
         }

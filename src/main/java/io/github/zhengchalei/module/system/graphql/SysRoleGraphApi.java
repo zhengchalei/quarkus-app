@@ -3,13 +3,13 @@ package io.github.zhengchalei.module.system.graphql;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.SysRole;
 import io.github.zhengchalei.module.system.service.SysRoleService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Query;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import java.util.List;
 
 /**

@@ -27,9 +27,9 @@ public class $ {
      */
     private static <T extends TreeNode<T>> T genChildren(final T root, final Collection<T> list) {
         list
-            .stream()
-            .filter(it -> root.getId().equals(it.getParentId()))
-            .forEach(it -> root.getChildren().add(genChildren(it, list)));
+                .stream()
+                .filter(it -> root.getId().equals(it.getParentId()))
+                .forEach(it -> root.getChildren().add(genChildren(it, list)));
         return root;
     }
 
@@ -42,9 +42,9 @@ public class $ {
     public static <T extends TreeNode<T>> List<T> tree(List<T> list) {
         // 找到 Root
         return list.stream()
-            .filter(t -> t.getParentId() == null)
-            .map(it -> genChildren(it, list))
-            .toList();
+                .filter(t -> t.getParentId() == null)
+                .map(it -> genChildren(it, list))
+                .toList();
     }
 
     /**

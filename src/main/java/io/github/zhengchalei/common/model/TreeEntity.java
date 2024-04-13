@@ -1,11 +1,11 @@
 package io.github.zhengchalei.common.model;
 
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.hibernate.Hibernate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Transient;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.hibernate.Hibernate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

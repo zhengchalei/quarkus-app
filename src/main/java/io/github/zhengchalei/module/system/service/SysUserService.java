@@ -1,6 +1,7 @@
 package io.github.zhengchalei.module.system.service;
 
 import com.querydsl.jpa.impl.JPAQuery;
+import io.github.zhengchalei.common.RPage;
 import io.github.zhengchalei.common.model.Page;
 import io.github.zhengchalei.module.system.domain.QSysPermission;
 import io.github.zhengchalei.module.system.domain.QSysRole;
@@ -12,8 +13,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
-import java.util.List;
-
 /**
  * @author <a href="mailto:stone981023@gmail.com">zhengchalei</a>
  **/
@@ -24,38 +23,28 @@ public class SysUserService {
     @Inject
     EntityManager entityManager;
 
-    public long findCount(SysUser sysUser) {
-        QSysUser qSysUser = QSysUser.sysUser;
-        JPAQuery<Long> query = new JPAQuery<SysUser>(entityManager)
-                .select(qSysUser.count())
-                .from(qSysUser);
-        if (sysUser.id != null) {
-            query = query.where(qSysUser.id.eq(sysUser.id));
-        }
-        if (sysUser.username != null) {
-            query = query.where(qSysUser.username.eq(sysUser.username));
-        }
-        return query.fetchCount();
-    }
-
-    public List<SysUser> findList(Page page, SysUser sysUser) {
+    public RPage<SysUser> findSysUserPage(Page page, SysUser params) {
         QSysUser qSysUser = QSysUser.sysUser;
         JPAQuery<SysUser> query = new JPAQuery<SysUser>(entityManager)
-                .select(qSysUser)
                 .from(qSysUser)
                 .leftJoin(qSysUser.roles, QSysRole.sysRole).fetchJoin()
                 .leftJoin(QSysRole.sysRole.permissions, QSysPermission.sysPermission).fetchJoin();
-        if (sysUser.id != null) {
-            query = query.where(qSysUser.id.eq(sysUser.id));
+        if (params.id != null) {
+            query = query.where(qSysUser.id.eq(params.id));
         }
-        if (sysUser.username != null) {
-            query = query.where(qSysUser.username.eq(sysUser.username));
+        if (params.username != null) {
+            query = query.where(qSysUser.username.eq(params.username));
         }
-        return page.fetch(query);
+        RPage<SysUser> res = new RPage<>();
+        // 查询总数
+        res.count = query.select(qSysUser.count()).fetchCount();
+        // 分页查询, 构建条件后给分页内部fetch
+        res.data = query.select(qSysUser).offset(page.skip()).limit(page.limit()).fetch();
+        return res;
     }
 
 
-    public SysUser findById(Long id) {
+    public SysUser findSysUserById(Long id) {
         QSysUser qSysUser = QSysUser.sysUser;
         SysUser data = new JPAQuery<>(entityManager)
                 .select(qSysUser)
@@ -71,12 +60,12 @@ public class SysUserService {
     }
 
 
-    public void save(SysUser sysUser) {
+    public void saveSysUser(SysUser sysUser) {
         sysUser.persistAndFlush();
     }
 
 
-    public void update(SysUser sysUser) {
+    public void updateSysUserById(SysUser sysUser) {
         SysUser flush = SysUser.findById(sysUser.id);
         flush.username = sysUser.username;
         flush.email = sysUser.email;
@@ -85,7 +74,7 @@ public class SysUserService {
     }
 
 
-    public boolean delete(Long id) {
+    public boolean deleteSysUserById(Long id) {
         return SysUser.deleteById(id);
     }
 }

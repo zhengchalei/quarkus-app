@@ -3,13 +3,13 @@ package io.github.zhengchalei.module.system.service;
 import io.github.zhengchalei.common.jpa.QueryBuilder;
 import io.github.zhengchalei.module.system.domain.SysPermission;
 import io.quarkus.panache.common.Page;
-
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+
 import java.util.List;
 
 /**
@@ -26,8 +26,8 @@ public class SysPermissionService {
         QueryBuilder<SysPermission> queryBuilder = new QueryBuilder<>(entityManager, SysPermission.class);
         if (sysPermission.getId() != null) {
             Predicate predicate = queryBuilder.cb.equal(
-                queryBuilder.root.get("id"),
-                sysPermission.getId()
+                    queryBuilder.root.get("id"),
+                    sysPermission.getId()
             );
             queryBuilder.where(predicate);
         }
